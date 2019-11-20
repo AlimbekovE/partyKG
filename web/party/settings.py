@@ -80,6 +80,7 @@ WSGI_APPLICATION = 'party.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': config['database.name'],
         'USER': config['database.user'],
         'PASSWORD': config['database.password'],
         'HOST': config['database.host'],
@@ -125,3 +126,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = "/usr/src/app/static"
+
+MEDIA_ROOT = config['general.media_root']
+MEDIA_URL = '/media/'
