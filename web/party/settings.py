@@ -80,11 +80,10 @@ WSGI_APPLICATION = 'party.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': config['database.name'],
         'USER': config['database.user'],
         'PASSWORD': config['database.password'],
-        'HOST': config['pgbouncer.host'],
-        'PORT': config['pgbouncer.port'],
+        'HOST': config['database.host'],
+        'PORT': config['database.port'],
     }
 }
 
