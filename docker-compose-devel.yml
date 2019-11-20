@@ -5,8 +5,8 @@ services:
     restart: always
     image: mirsoftdevel/kp:nginx-develop
     ports:
-      - "127.0.0.1:84:80"
-      - "127.0.0.1:447:443"
+      - "127.0.0.1:84:88"
+      - "127.0.0.1:447:451"
     environment:
       - SERVER_NAME=kp.mirsoft.io
     # command: /bin/sh -c "envsubst '$$SERVER_NAME' < /etc/nginx/nginx.tmpl > /etc/nginx/nginx.conf && nginx -g 'daemon off;'"

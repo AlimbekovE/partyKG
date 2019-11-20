@@ -57,7 +57,7 @@ pipeline {
             echo 'Cleaning...'
             script {
                 try {
-                    sh "docker stop kp${env.BUILD_TAG} postgres_${env.BUILD_TAG} 2>/dev/null"
+                    sh "docker stop kp_${env.BUILD_TAG} postgres_${env.BUILD_TAG} 2>/dev/null"
                     sh "docker rm kp_${env.BUILD_TAG} postgres_${env.BUILD_TAG} 2>/dev/null"
                     sh "docker network rm nw_${env.BUILD_TAG} 2>/dev/null"
                     deleteDir()
