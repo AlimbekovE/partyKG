@@ -203,13 +203,8 @@ pip-selfcheck.json
 # Folder config file
 Desktop.ini
 
-#Ignore webpack-stats
-web/webpack-stats.json
-web/webpack-stats-cdn.json
-
 # basebuy fixtures
 */fixtures/
 pgdata/
 
-map_genetator_outputs/
 static/

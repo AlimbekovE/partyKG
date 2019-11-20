@@ -18,8 +18,6 @@ services:
       - ./certs/letsencrypt/www:/var/www/letsencrypt
       - ./certs/letsencrypt/etc:/etc/letsencrypt
       - ./certs/dhparam.pem:/etc/ssl/private/dhparam.pem
-      - ./map_genetator_outputs:/usr/src/app/map
-
     links:
       - web:web
 
