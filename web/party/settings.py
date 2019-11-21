@@ -16,7 +16,12 @@ config = {
     'database.password': os.environ.get('POSTGRES_PASSWORD', 'postgres'),
     'database.host': os.environ.get('POSTGRES_HOST', 'postgres'),
     'database.port': os.environ.get('POSTGRES_PORT', 5432),
-    'language.language_code': os.environ.get('DJ_LANGUAGE_CODE', 'ru-ru')
+    'language.language_code': os.environ.get('DJ_LANGUAGE_CODE', 'ru-ru'),
+
+    'sms.backend': os.environ.get('DJ_SMS_BACKEND', ''),
+    'sms.username': os.environ.get('DJ_SMS_USERNAME', ''),
+    'sms.password': os.environ.get('DJ_SMS_PASSWORD', ''),
+    'sms.sender_name': os.environ.get('DJ_SMS_SENDER_NAME', ''),
 }
 
 
@@ -29,8 +34,12 @@ SECRET_KEY = config['security.secret_key']
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['0.0.0.0']
+ALLOWED_HOSTS = config['security.allowed_hosts'].split(',')
 
+SEND_SMS_BACKEND = f"sms_sender.backends.{config['sms.backend']}"
+SMS_LOGIN = config['sms.username']
+SMS_PASSWORD = config['sms.password']
+SMS_SENDER_NAME = config['sms.sender_name']
 
 # Application definition
 
@@ -42,8 +51,15 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    'rest_framework',
     'party.account',
 ]
+
+REST_FRAMEWORK = {
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 10
+}
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -112,6 +128,8 @@ AUTH_PASSWORD_VALIDATORS = [
 
 # Internationalization
 # https://docs.djangoproject.com/en/2.2/topics/i18n/
+
+AUTH_USER_MODEL = 'account.User'
 
 LANGUAGE_CODE = 'en-us'
 

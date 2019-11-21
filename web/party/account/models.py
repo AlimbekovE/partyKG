@@ -1,24 +1,28 @@
 from django.db import models
 from django.contrib.auth.base_user import AbstractBaseUser
 from django.utils.translation import gettext as _
+from django.utils.crypto import get_random_string
 
 from party.account.managers import UserManager
+from party.api_auth.utils import send_sms_account_verification
 
 
 class User(AbstractBaseUser):
-    name = models.CharField(max_length=255)
-    last_name = models.CharField(max_length=255)
+    name = models.CharField(max_length=255, blank=True, null=True)
+    surname = models.CharField(max_length=255, blank=True, null=True)
     patronymic = models.CharField(max_length=255, blank=True, null=True)
     phone = models.CharField(max_length=255, unique=True)
     email = models.CharField(max_length=255, unique=True, blank=True, null=True)
+    activation_code = models.CharField(max_length=4, blank=True,
+                                       verbose_name=_(
+                                           'Activation Code'))
 
     is_staff = models.BooleanField(default=False)
     is_active = models.BooleanField(default=False)
 
     objects = UserManager()
 
-    USERNAME_FIELD = 'name'
-    REQUIRED_FIELDS = ['phone']
+    USERNAME_FIELD = 'phone'
 
     class Meta:
         verbose_name = _('User')
@@ -32,3 +36,41 @@ class User(AbstractBaseUser):
 
     def __str__(self):
         return self.phone
+
+    @classmethod
+    def create(cls, phone, password, is_sms_activated=True, **kwargs):
+        user = cls(phone=phone, **kwargs)
+        user.set_password(password)
+        user.activation_code = cls.create_activation_code()
+        user.save(is_sms_activation=is_sms_activated)
+        return user
+
+    def save(self, *args, **kwargs):
+        if kwargs.get('update_fields', None) is None:
+
+            is_sms_activation = kwargs.pop('is_sms_activation', False)
+
+            if is_sms_activation:
+                self.send_sms_activation_code(self.activation_code)
+
+        super().save(*args, **kwargs)
+
+    @classmethod
+    def create_activation_code(cls):
+        code = get_random_string(4, '0123456789')
+        if cls.objects.filter(activation_code=code).exists():
+            cls.create_activation_code()
+        return code
+
+    def activate_with_code(self, code):
+        if str(self.activation_code) != str(code):
+            raise Exception(_('Activation code does not match'))
+        self.is_active = True
+        self.activation_code = ''
+        self.save(update_fields=['is_active', 'activation_code'])
+        return True
+
+
+    def send_sms_activation_code(self, code):
+        send_sms_account_verification(self.phone, code)
+        return True

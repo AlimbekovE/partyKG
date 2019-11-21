@@ -4,3 +4,4 @@ psycopg2-binary==2.8.3
 Pillow
 requests
 django-debug-toolbar
+git+https://github.com/mirsoft-kg/sms-sender.git
