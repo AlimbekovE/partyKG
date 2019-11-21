@@ -3,6 +3,8 @@ from django.contrib.auth.base_user import AbstractBaseUser
 from django.utils.translation import gettext as _
 from django.utils.crypto import get_random_string
 
+from rest_framework.authtoken.models import Token
+
 from party.account.managers import UserManager
 from party.api_auth.utils import send_sms_account_verification
 
@@ -21,7 +23,6 @@ class User(AbstractBaseUser):
     is_active = models.BooleanField(default=False)
 
     objects = UserManager()
-
     USERNAME_FIELD = 'phone'
 
     class Meta:
@@ -70,7 +71,10 @@ class User(AbstractBaseUser):
         self.save(update_fields=['is_active', 'activation_code'])
         return True
 
-
     def send_sms_activation_code(self, code):
         send_sms_account_verification(self.phone, code)
         return True
+
+    def get_token(self):
+        token, created = Token.objects.get_or_create(user=self)
+        return token
