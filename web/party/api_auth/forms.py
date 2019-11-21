@@ -38,8 +38,7 @@ class ActivateAccountForm(APIForm):
         phone = cleaned_data.get('phone', '')
         if not phone:
             raise forms.ValidationError(_('Please, provide phone number'))
-        phone = normalize_phone(phone)
-        cleaned_data['phone'] = phone
+        cleaned_data['phone'] = normalize_phone(phone)
         code = cleaned_data.get('code', '')
         if not code or not User.objects.filter(phone=phone, activation_code=code, is_active=False).exists():
             raise forms.ValidationError(_('Account not found'))

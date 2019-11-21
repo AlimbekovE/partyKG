@@ -10,13 +10,15 @@ from party.core.utils import PRODUCTION_ENV
 def authenticate_user(phone, password):
     User = get_user_model()
 
-    if not User.objects.filter(phone=phone).exists():
+    user = User.objects.filter(phone=phone)
+
+    if not user.exists():
         raise exceptions.NotFound(_('Account not found.'))
-    if not User.objects.get(phone=phone).check_password(password):
+    if not user.first().check_password(password):
         raise exceptions.AuthenticationFailed()
     user = authenticate(phone=phone, password=password)
     if not user or not user.is_active:
-        raise exceptions.PermissionDenied(_('003'))
+        raise exceptions.PermissionDenied()
 
     token = user.get_token()
     return user, token.key

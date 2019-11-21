@@ -18,7 +18,7 @@ def validate_code(value):
     if not value.isdigit():
         raise ValidationError(_('Activation code should contain digits only'))
     if len(value) != 4:
-        raise ValidationError(_('Activation code must contain 6 digits'))
+        raise ValidationError(_('Activation code must contain 4 digits'))
     if not User.objects.filter(activation_code=value).exists():
         raise ValidationError(_('Wrong activation code'))
     return value
