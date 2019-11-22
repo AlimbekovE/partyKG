@@ -52,5 +52,5 @@ class RegisterSerializer(serializers.ModelSerializer):
         return value
 
     def create(self, validated_data):
-        instance = User.create(validated_data.pop('phone'), validated_data.pop('password'), is_sms_activated=True)
+        instance = User.create(**validated_data, is_sms_activated=True)
         return instance
