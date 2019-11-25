@@ -1,4 +1,6 @@
 from rest_framework.serializers import ModelSerializer
+
+from party.account.serializers import UserProfileSerializer
 from party.post.models import Post, PostImages
 
 
@@ -23,7 +25,7 @@ class PostImageSerializer(ModelSerializer):
 
     class Meta:
         model = PostImages
-        fields = ['picture']
+        fields = '__all__'
 
 
 class PostSerializer(ModelSerializer):
@@ -34,8 +36,5 @@ class PostSerializer(ModelSerializer):
     def to_representation(self, instance):
         representation = super().to_representation(instance)
         representation['images'] = PostImageSerializer(instance.images.all(), many=True, context=self.context).data
-        representation['owner'] = {
-            'name': instance.owner.name,
-            'surname': instance.owner.surname
-        }
+        representation['owner'] = UserProfileSerializer(instance.owner).data
         return representation

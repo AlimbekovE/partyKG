@@ -36,6 +36,12 @@ class UserSerializer(serializers.ModelSerializer):
         return instance
 
 
+class UserProfileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        exclude = ('is_staff', 'activation_code', 'password', 'is_active', 'last_login')
+
+
 class RegisterSerializer(serializers.ModelSerializer):
     password = serializers.CharField(min_length=6, write_only=True)
 
