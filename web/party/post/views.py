@@ -3,7 +3,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 
-from party.core.permissions import IsOwnerOrIsAdmin, IsAdmin
+from party.core.permissions import IsOwnerOrIsAdmin, IsAdmin, IsPostImageOwnerOrAdmin
 from party.post.models import Post, PostImages
 from party.post.serializers import PostSerializer, PostImageSerializer
 
@@ -46,7 +46,7 @@ class PostImagesViewsSet(mixins.CreateModelMixin,
 
     def get_permissions(self):
         if self.action in ['update', 'partial_update', 'destroy', 'create']:
-            permission_classes = [IsOwnerOrIsAdmin]
+            permission_classes = [IsPostImageOwnerOrAdmin]
         elif self.action in ['list', 'retrieve']:
             permission_classes = [IsAuthenticated]
         else:
