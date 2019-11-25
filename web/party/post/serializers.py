@@ -25,7 +25,7 @@ class PostImageSerializer(ModelSerializer):
 
     class Meta:
         model = PostImages
-        fields = ['picture']
+        fields = '__all__'
 
 
 class PostSerializer(ModelSerializer):

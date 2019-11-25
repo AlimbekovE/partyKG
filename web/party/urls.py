@@ -18,11 +18,11 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf.urls.static import static
 from rest_framework.routers import DefaultRouter
-from party.post.views import PostViewSet
-
+from party.post.views import PostViewSet, PostImagesViewsSet
 
 router = DefaultRouter()
 router.register('post', PostViewSet)
+router.register('post-images', PostImagesViewsSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
