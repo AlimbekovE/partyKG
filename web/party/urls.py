@@ -22,7 +22,7 @@ from party.post.views import PostViewSet, PostImagesViewsSet
 
 router = DefaultRouter()
 router.register('post', PostViewSet)
-router.register('post-images', PostImagesViewsSet)
+router.register('post_images', PostImagesViewsSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
