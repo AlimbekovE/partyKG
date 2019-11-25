@@ -36,10 +36,10 @@ class PostViewSet(ModelViewSet):
 
 
 class PostImagesViewsSet(mixins.CreateModelMixin,
-                                  mixins.DestroyModelMixin,
-                                  mixins.RetrieveModelMixin,
-                                  mixins.UpdateModelMixin,
-                                  viewsets.GenericViewSet):
+                         mixins.DestroyModelMixin,
+                         mixins.RetrieveModelMixin,
+                         mixins.UpdateModelMixin,
+                         viewsets.GenericViewSet):
     serializer_class = PostImageSerializer
     queryset = PostImages.objects.select_related('post')
     pagination_class = None
