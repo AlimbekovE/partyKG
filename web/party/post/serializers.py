@@ -34,4 +34,8 @@ class PostSerializer(ModelSerializer):
     def to_representation(self, instance):
         representation = super().to_representation(instance)
         representation['images'] = PostImageSerializer(instance.images.all(), many=True, context=self.context).data
+        representation['owner'] = {
+            'name': instance.owner.name,
+            'surname': instance.owner.surname
+        }
         return representation
