@@ -17,8 +17,15 @@ from django.conf import settings
 from django.contrib import admin
 from django.urls import path, include
 from django.conf.urls.static import static
+from rest_framework.routers import DefaultRouter
+from party.post.views import PostViewSet
+
+
+router = DefaultRouter()
+router.register('post', PostViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/v1/', include('party.api_auth.urls')),
+    path('api/v1/', include(router.urls)),
 ]
