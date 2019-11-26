@@ -23,6 +23,11 @@ class UserMeSerializer(serializers.ModelSerializer):
     def get_token(self, obj):
         return obj.get_token().key
 
+    def to_representation(self, instance):
+        representation = super().to_representation(instance)
+        representation['party_ticket'] = f"{instance.id}".rjust(6, '0')
+        return representation
+
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
@@ -34,6 +39,11 @@ class UserSerializer(serializers.ModelSerializer):
         instance.send_sms_activation_code(instance.create_activation_code())
         instance.save(update_fields=['activation_code'])
         return instance
+
+    def to_representation(self, instance):
+        representation = super().to_representation(instance)
+        representation['party_ticket'] = f"{instance.id}".rjust(6, '0')
+        return representation
 
 
 class UserProfileSerializer(serializers.ModelSerializer):
@@ -60,3 +70,8 @@ class RegisterSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         instance = User.create(**validated_data, is_sms_activated=True)
         return instance
+
+    def to_representation(self, instance):
+        representation = super().to_representation(instance)
+        representation['party_ticket'] = f"{instance.id}".rjust(6, '0')
+        return representation
