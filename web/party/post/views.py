@@ -11,7 +11,6 @@ from party.post.serializers import PostSerializer, PostImageSerializer
 class PostViewSet(ModelViewSet):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
-    permission_classes = []
 
     def get_permissions(self):
         if self.action in ['update', 'partial_update', 'destroy', 'create']:
@@ -52,4 +51,3 @@ class PostImagesViewsSet(mixins.CreateModelMixin,
         else:
             permission_classes = [IsAdmin]
         return [permission() for permission in permission_classes]
-

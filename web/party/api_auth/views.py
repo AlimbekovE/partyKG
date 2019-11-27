@@ -11,7 +11,7 @@ from rest_framework.viewsets import GenericViewSet
 
 from party.account.serializers import RegisterSerializer, UserMeSerializer, UserSerializer
 from party.api_auth.forms import LoginForm, ActivateAccountForm, ResendActivationForm
-from party.core.permissions import IsOwnerOrReadOnly
+from party.core.permissions import IsUserOrReadOnly
 
 User = get_user_model()
 
@@ -87,4 +87,4 @@ class UpdateUserView(mixins.RetrieveModelMixin,
                      GenericViewSet):
     serializer_class = UserSerializer
     queryset = User.objects.all()
-    permission_classes = [IsOwnerOrReadOnly]
+    permission_classes = [IsUserOrReadOnly]
