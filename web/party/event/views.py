@@ -4,7 +4,7 @@ from rest_framework.response import Response
 
 from party.core.permissions import IsOwnerOrIsAdmin, IsAdmin
 from party.event.models import Event
-from party.event.serializers import EventSerializer
+from party.event.serializers import EventSerializer, EventListSerializer
 
 
 class EventViewSet(mixins.ListModelMixin,
@@ -13,6 +13,7 @@ class EventViewSet(mixins.ListModelMixin,
                    viewsets.GenericViewSet):
     queryset = Event.objects.all()
     serializer_class = EventSerializer
+    pagination_class = None
 
     def get_permissions(self):
         if self.action in ['update', 'partial_update', 'destroy', 'create']:
@@ -22,6 +23,13 @@ class EventViewSet(mixins.ListModelMixin,
         else:
             permission_classes = [IsAdmin]
         return [permission() for permission in permission_classes]
+
+
+    def get_serializer_class(self):
+        if self.action == 'list':
+            return EventListSerializer
+        return super().get_serializer_class()
+
 
     def get_queryset(self):
         month = self.request.GET.get('month', None)
