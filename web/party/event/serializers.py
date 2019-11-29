@@ -17,14 +17,33 @@ class EventSerializer(serializers.ModelSerializer):
         return representation
 
 
+class CustomListSerializer(serializers.ListSerializer):
+    def to_representation(self, data):
+        calendar = {}
+        for item in data.all():
+            item = self.child.to_representation(item)
+            day, event_time = item
+
+            if day in calendar:
+                calendar[day].append(event_time)
+            else:
+                calendar[day] = [event_time]
+        return calendar
+
+    @property
+    def data(self):
+        return self.to_representation(self.instance)
+
+
 class EventListSerializer(serializers.ModelSerializer):
     time = serializers.DateTimeField(format='%H:%M', source='datetime')
 
     class Meta:
         model = Event
         exclude = ['datetime']
+        list_serializer_class = CustomListSerializer
 
     def to_representation(self, instance):
         representation = super().to_representation(instance)
         representation['owner'] = UserProfileSerializer(instance.owner).data
-        return {instance.datetime.day: representation}
+        return instance.datetime.day, representation
