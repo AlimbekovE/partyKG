@@ -8,8 +8,10 @@ from rest_framework.views import APIView
 from rest_framework.authtoken.models import Token
 from rest_framework import mixins
 from rest_framework.viewsets import GenericViewSet
+from rest_framework.decorators import action
 
-from party.account.serializers import RegisterSerializer, UserMeSerializer, UserSerializer
+from party.account.models import Avatar
+from party.account.serializers import RegisterSerializer, UserMeSerializer, UserSerializer, AvatarSerializer
 from party.api_auth.forms import LoginForm, ActivateAccountForm, ResendActivationForm
 from party.core.permissions import IsUserOrReadOnly
 
@@ -81,10 +83,25 @@ class ResendActivationCodeView(APIView):
         return Response({'status': 'success', 'activation_code': response['data']})
 
 
-class UpdateUserView(mixins.RetrieveModelMixin,
-                     mixins.UpdateModelMixin,
-                     mixins.DestroyModelMixin,
-                     GenericViewSet):
+class UserView(mixins.RetrieveModelMixin,
+               mixins.UpdateModelMixin,
+               mixins.DestroyModelMixin,
+               GenericViewSet):
     serializer_class = UserSerializer
     queryset = User.objects.all()
     permission_classes = [IsUserOrReadOnly]
+
+    @action(methods=['POST', 'GET'], detail=False)
+    def avatar(self, request):
+        if request.method == 'POST':
+            Avatar.objects.filter(user=request.user).delete()
+            data = request.data
+            data['user'] = request.user.id
+            serializer = AvatarSerializer(data=data)
+            if serializer.is_valid(raise_exception=True):
+                serializer.save()
+                return Response(serializer.data)
+        else:
+            serializer = AvatarSerializer(Avatar.objects.filter(user=request.user).first(),
+                                          context={'request': request})
+            return Response(serializer.data)

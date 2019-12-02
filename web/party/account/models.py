@@ -18,6 +18,7 @@ class User(AbstractBaseUser):
     activation_code = models.CharField(max_length=4, blank=True,
                                        verbose_name=_(
                                            'Activation Code'))
+    position = models.CharField(max_length=255, blank=True, null=True)
 
     is_staff = models.BooleanField(default=False)
     is_active = models.BooleanField(default=False)
@@ -78,3 +79,15 @@ class User(AbstractBaseUser):
     def get_token(self):
         token, created = Token.objects.get_or_create(user=self)
         return token
+
+
+class Avatar(models.Model):
+    def user_directory_path(instance, filename):
+        return f'accounts/avatars/{instance.user.id}/{filename}'
+
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='avatar')
+    image = models.ImageField(upload_to=user_directory_path, blank=True, null=True)
+
+    class Meta:
+        verbose_name = _('Avatar')
+        verbose_name_plural = _('Avatars')
