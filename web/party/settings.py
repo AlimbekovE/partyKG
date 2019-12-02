@@ -1,10 +1,12 @@
 import os
+from party.core.utils import PRODUCTION_ENV
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 config = {
     'debug.debug': 'true' == os.environ.get('DJ_DEBUG', False),
+    'env.name': os.environ.get('ENV', PRODUCTION_ENV),
 
     'general.static_root': os.environ.get('DJ_STATIC_ROOT', os.path.join(BASE_DIR, 'static/')),
     'general.media_root': os.environ.get('DJ_MEDIA_ROOT', os.path.join(BASE_DIR, 'media/')),
@@ -30,6 +32,7 @@ config = {
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = config['security.secret_key']
+ENV = config['env.name']
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
