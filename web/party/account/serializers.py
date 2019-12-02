@@ -2,6 +2,7 @@ from django.contrib.auth import get_user_model
 from django.utils.translation import gettext as _
 from rest_framework import serializers
 
+from party.account.models import Avatar
 from party.core.utils import normalize_phone
 
 User = get_user_model()
@@ -75,3 +76,28 @@ class RegisterSerializer(serializers.ModelSerializer):
         representation = super().to_representation(instance)
         representation['party_ticket'] = f"{instance.id}".rjust(6, '0')
         return representation
+
+
+class AvatarSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Avatar
+        fields = ('id', 'user', 'image', )
+
+    def _get_image_url(self, obj):
+        try:
+            if obj.image is None:
+                return None
+
+            url = obj.image.url
+            request = self.context.get('request')
+            if request is not None:
+                return request.build_absolute_uri(url)
+        except:
+            return ''
+        return url
+
+    def to_representation(self, instance):
+        res = super(AvatarSerializer, self).to_representation(instance)
+        res['image'] = self._get_image_url(instance)
+        return res

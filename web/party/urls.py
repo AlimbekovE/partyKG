@@ -17,14 +17,14 @@ from django.contrib import admin
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 
-from party.api_auth.views import UpdateUserView
+from party.api_auth.views import UserView
 from party.event.views import EventViewSet
 from party.post.views import PostViewSet, PostImagesViewsSet
 
 router = DefaultRouter()
 router.register('post', PostViewSet)
 router.register('post_images', PostImagesViewsSet)
-router.register('users', UpdateUserView)
+router.register('users', UserView)
 router.register('event', EventViewSet)
 
 urlpatterns = [
