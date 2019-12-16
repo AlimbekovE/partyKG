@@ -87,9 +87,9 @@ class User(AbstractBaseUser):
 
     @property
     def party_ticket(self):
-        region_id = f"{self.region.region_id}".rjust(4, '0')
-        district_id = f"{self.district.district_id}".rjust(4, '0')
-        user_id = f"{self.id}".rjust(4, '0')
+        region_id = f"{self.region.region_id}".rjust(2, '0') if self.region else "00"
+        district_id = f"{self.district.district_id}".rjust(2, '0') if self.district else "00"
+        user_id = f"{self.id}".rjust(6, '0')
         return f"{region_id}/{district_id}/{user_id}"
 
     def get_user_url(self):
