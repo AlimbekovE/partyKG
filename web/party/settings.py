@@ -60,7 +60,8 @@ INSTALLED_APPS = [
     'party.account',
     'party.api_auth',
     'party.post',
-    'party.event'
+    'party.event',
+    'party.locations'
 ]
 
 REST_FRAMEWORK = {

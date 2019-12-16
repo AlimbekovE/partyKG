@@ -4,6 +4,7 @@ from rest_framework import serializers
 
 from party.account.models import Avatar
 from party.core.utils import normalize_phone
+from party.locations.models import Region, District
 
 User = get_user_model()
 
@@ -26,7 +27,7 @@ class UserMeSerializer(serializers.ModelSerializer):
 
     def to_representation(self, instance):
         representation = super().to_representation(instance)
-        representation['party_ticket'] = f"{instance.id}".rjust(6, '0')
+        representation['party_ticket'] = instance.party_ticket
         return representation
 
 
@@ -43,7 +44,7 @@ class UserSerializer(serializers.ModelSerializer):
 
     def to_representation(self, instance):
         representation = super().to_representation(instance)
-        representation['party_ticket'] = f"{instance.id}".rjust(6, '0')
+        representation['party_ticket'] = instance.party_ticket
         return representation
 
 
@@ -55,12 +56,23 @@ class UserProfileSerializer(serializers.ModelSerializer):
 
 class RegisterSerializer(serializers.ModelSerializer):
     password = serializers.CharField(min_length=6, write_only=True)
+    district = serializers.SlugRelatedField(
+        slug_field='slug',
+        queryset=District.objects.all(),
+        required=False
+    )
+    region = serializers.SlugRelatedField(
+        slug_field='slug',
+        queryset=Region.objects.all(),
+        required=False
+    )
 
     class Meta:
         model = User
         fields = (
-            'name', 'surname', 'patronymic',
-            'phone', 'email', 'password', 'is_staff'
+            'id', 'name', 'surname', 'patronymic',
+            'phone', 'email', 'password', 'is_staff',
+            'region', 'district',
         )
         read_only_fields = ('is_staff',)
 
@@ -74,7 +86,7 @@ class RegisterSerializer(serializers.ModelSerializer):
 
     def to_representation(self, instance):
         representation = super().to_representation(instance)
-        representation['party_ticket'] = f"{instance.id}".rjust(6, '0')
+        representation['party_ticket'] = instance.party_ticket
         return representation
 
 
