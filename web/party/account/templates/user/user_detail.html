@@ -1,0 +1,42 @@
+{% extends "admin/base_site.html" %}
+
+{% block content %}
+<style>
+  section{
+    display: grid;
+    grid-auto-rows: auto;
+    grid-template-columns: 0.5fr 1fr 2fr;
+  }
+  .user_detail{
+    grid-column: 2;
+    display: grid;
+    grid-auto-rows: auto;
+    grid-template-columns: 1fr 1fr;
+    margin-bottom: 1em;
+  }
+  .value {
+    grid-column: 2;
+  }
+  .label {
+    grid-column: 1;
+  }
+  #avatar {
+    grid-column: 3;
+    grid-row: 1/10;
+    overflow: hidden;
+    height: 230px;
+  }
+</style>
+<section>
+    <div class="user_detail"><span class="label">name</span><span class="value">{{ user.name }}</span><hr></div>
+    <div class="user_detail"><span class="label">surname</span><span class="value">{{ user.surname }}</span><hr></div>
+    <div class="user_detail"><span class="label">patronymic</span><span class="value">{{ user.patronymic }}</span><hr></div>
+    <div class="user_detail"><span class="label">phone</span><span class="value">{{ user.phone }}</span><hr></div>
+    <div class="user_detail"><span class="label">email</span><span class="value">{{ user.email }}</span><hr></div>
+    <div class="user_detail"><span class="label">position</span><span class="value">{{ user.position }}</span><hr></div>
+    <div class="user_detail"><span class="label">region</span><span class="value">{{ user.region }}</span><hr></div>
+    <div class="user_detail"><span class="label">district</span><span class="value">{{ user.district }}</span><hr></div>
+    
+    <img src="{{ user.avatar.image.url }}" id="avatar" alt="Smiley face">
+</section>
+{% endblock %}

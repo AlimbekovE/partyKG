@@ -26,7 +26,7 @@ class UserMeSerializer(serializers.ModelSerializer):
 
     def to_representation(self, instance):
         representation = super().to_representation(instance)
-        representation['party_ticket'] = f"{instance.id}".rjust(6, '0')
+        representation['party_ticket'] = instance.party_ticket
         return representation
 
 
@@ -43,7 +43,7 @@ class UserSerializer(serializers.ModelSerializer):
 
     def to_representation(self, instance):
         representation = super().to_representation(instance)
-        representation['party_ticket'] = f"{instance.id}".rjust(6, '0')
+        representation['party_ticket'] = instance.party_ticket
         return representation
 
 
@@ -60,7 +60,8 @@ class RegisterSerializer(serializers.ModelSerializer):
         model = User
         fields = (
             'name', 'surname', 'patronymic',
-            'phone', 'email', 'password', 'is_staff'
+            'phone', 'email', 'password', 'is_staff',
+            'region', 'district',
         )
         read_only_fields = ('is_staff',)
 
@@ -74,7 +75,7 @@ class RegisterSerializer(serializers.ModelSerializer):
 
     def to_representation(self, instance):
         representation = super().to_representation(instance)
-        representation['party_ticket'] = f"{instance.id}".rjust(6, '0')
+        representation['party_ticket'] = instance.party_ticket
         return representation
 
 

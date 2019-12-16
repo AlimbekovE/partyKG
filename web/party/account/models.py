@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.base_user import AbstractBaseUser
+from django.urls import reverse
 from django.utils.translation import gettext as _
 from django.utils.crypto import get_random_string
 
@@ -7,6 +8,7 @@ from rest_framework.authtoken.models import Token
 
 from party.account.managers import UserManager
 from party.api_auth.utils import send_sms_account_verification
+from party.locations.models import Region, District
 
 
 class User(AbstractBaseUser):
@@ -19,6 +21,9 @@ class User(AbstractBaseUser):
                                        verbose_name=_(
                                            'Activation Code'))
     position = models.CharField(max_length=255, blank=True, null=True)
+
+    region = models.ForeignKey(Region, on_delete=models.CASCADE, blank=True, null=True)
+    district = models.ForeignKey(District, on_delete=models.CASCADE, blank=True, null=True)
 
     is_staff = models.BooleanField(default=False)
     is_active = models.BooleanField(default=False)
@@ -79,6 +84,16 @@ class User(AbstractBaseUser):
     def get_token(self):
         token, created = Token.objects.get_or_create(user=self)
         return token
+
+    @property
+    def party_ticket(self):
+        region_id = f"{self.region.region_id}".rjust(4, '0')
+        district_id = f"{self.district.district_id}".rjust(4, '0')
+        user_id = f"{self.id}".rjust(4, '0')
+        return f"{region_id}/{district_id}/{user_id}"
+
+    def get_user_url(self):
+        return reverse('user_detail', kwargs={'pk': self.pk})
 
 
 class Avatar(models.Model):
