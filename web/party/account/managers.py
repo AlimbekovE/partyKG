@@ -11,7 +11,7 @@ class UserManager(BaseUserManager):
         user.save(using=self._db)
         return user
 
-    def create_superuser(self, phone, user_type, password):
+    def create_superuser(self, phone, password):
         if not phone:
             raise ValueError(_('Please provide phone'))
         user = self.model(phone=phone, is_staff=True, is_active=True)
