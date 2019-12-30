@@ -12,7 +12,7 @@ pipeline {
         stage('Test') {
             steps {
                 echo "Testing..."
-                sh "docker run --network=nw_${env.BUILD_TAG} --name=kp_${env.BUILD_TAG} -v ${env.WORKSPACE}/web:/usr/src/app -w /usr/src/app -e 'POSTGRES_HOST=postgres_${env.BUILD_TAG}' -e 'PGBOUNCER_HOST=postgres_${env.BUILD_TAG}'  -e 'PGBOUNCER_PORT=5432' -e 'PYTHONDONTWRITEBYTECODE=1' python:3.6 bash -c 'pip install -r requirements.txt && python manage.py test'"
+                sh "docker run --network=nw_${env.BUILD_TAG} --name=kp_${env.BUILD_TAG} -v ${env.WORKSPACE}/web:/usr/src/app -w /usr/src/app -e 'POSTGRES_HOST=postgres_${env.BUILD_TAG}' -e 'PGBOUNCER_HOST=postgres_${env.BUILD_TAG}'  -e 'PGBOUNCER_PORT=5432' -e 'PYTHONDONTWRITEBYTECODE=1' python:3.8 bash -c 'pip install -r requirements.txt && python manage.py test'"
             }
         }
         stage('Deploy Staging') {
