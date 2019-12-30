@@ -5,22 +5,18 @@ from party.post.models import Post, PostImages
 
 
 class PostImageSerializer(ModelSerializer):
-    def _get_picture_url(self, obj):
-        try:
-            if obj.picture is None:
-                return None
 
-            url = obj.picture.url
-            request = self.context.get('request')
-            if request is not None:
+    def _get_file_url(self, obj):
+        if file := getattr(obj, 'file', None):
+            url = file.url
+            if (request := self.context.get('request')) is not None:
                 return request.build_absolute_uri(url)
             return url
-        except:
-            return ''
+        return ''
 
     def to_representation(self, instance):
         res = super().to_representation(instance)
-        res['picture'] = self._get_picture_url(instance)
+        res['file'] = self._get_file_url(instance)
         return res
 
     class Meta:
@@ -35,6 +31,6 @@ class PostSerializer(ModelSerializer):
 
     def to_representation(self, instance):
         representation = super().to_representation(instance)
-        representation['images'] = PostImageSerializer(instance.images.all(), many=True, context=self.context).data
+        representation['files'] = PostImageSerializer(instance.images.all(), many=True, context=self.context).data
         representation['owner'] = UserProfileSerializer(instance.owner).data
         return representation

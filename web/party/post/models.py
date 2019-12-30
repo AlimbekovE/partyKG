@@ -1,6 +1,8 @@
 from django.contrib.auth import get_user_model
 from django.db import models
 
+from party.post.utils import FILE_TYPE
+
 User = get_user_model()
 
 
@@ -18,9 +20,10 @@ class PostImages(models.Model):
     def user_directory_path(instance, filename):
         return f'posts/{instance.post.id}/images/{filename}'
 
-    picture = models.ImageField(upload_to=user_directory_path, blank=True, null=True)
+    file = models.FileField(upload_to=user_directory_path, blank=True, null=True)
     post = models.ForeignKey(Post, related_name='images', on_delete=models.CASCADE)
     created = models.DateTimeField(auto_now_add=True)
+    type = models.CharField(choices=FILE_TYPE, max_length=50, default='image')
 
     class Meta:
         ordering = ['created']
