@@ -4,14 +4,13 @@ from django.conf import settings
 from django.conf.urls.static import static
 from rest_framework.routers import DefaultRouter
 
-from party.account.views import qr_code_scan, user_detail, event_users_list
-from party.api_auth.views import UserView
+from party.account.views import qr_code_scan, user_detail, event_users_list, UserView
 from party.event.views import EventViewSet
-from party.post.views import PostViewSet, PostImagesViewsSet
-
+from party.post.views import PostViewSet, PostImagesViewsSet, PostCommentViewSet
 
 router = DefaultRouter()
 router.register('post', PostViewSet)
+router.register('post_comments', PostCommentViewSet)
 router.register('post_images', PostImagesViewsSet)
 router.register('users', UserView)
 router.register('event', EventViewSet)

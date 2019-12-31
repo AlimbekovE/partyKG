@@ -15,6 +15,11 @@ class Post(models.Model):
     class Meta:
         ordering = ('-created', '-id')
 
+    def is_favorited(self, request):
+        if request.user.is_authenticated:
+            return self.favorites.filter(user=request.user).exists()
+        return False
+
 
 class PostImages(models.Model):
     def user_directory_path(instance, filename):
@@ -26,4 +31,24 @@ class PostImages(models.Model):
     type = models.CharField(choices=FILE_TYPE, max_length=50, default='image')
 
     class Meta:
-        ordering = ['created']
+        ordering = ('created',)
+
+
+class PostFavorite(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='favorites')
+    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='favorites')
+    created = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together = ('user', 'post')
+        ordering = ('-created',)
+
+
+class PostComment(models.Model):
+    post = models.ForeignKey(Post, related_name='comments', on_delete=models.CASCADE)
+    user = models.ForeignKey(User, related_name='comments', on_delete=models.CASCADE)
+    message = models.TextField(blank=True)
+    created = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ('-created',)
