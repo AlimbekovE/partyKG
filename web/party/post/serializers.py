@@ -1,7 +1,7 @@
 from rest_framework.serializers import ModelSerializer
 
 from party.account.serializers import UserProfileSerializer
-from party.post.models import Post, PostImages
+from party.post.models import Post, PostImages, PostComment
 
 
 class PostImageSerializer(ModelSerializer):
@@ -34,3 +34,9 @@ class PostSerializer(ModelSerializer):
         representation['files'] = PostImageSerializer(instance.images.all(), many=True, context=self.context).data
         representation['owner'] = UserProfileSerializer(instance.owner).data
         return representation
+
+
+class PostCommentSerializer(ModelSerializer):
+    class Meta:
+        model = PostComment
+        fields = '__all__'
