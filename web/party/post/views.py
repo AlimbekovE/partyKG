@@ -10,7 +10,7 @@ from party.core.paginators import CustomPagination
 from party.core.permissions import IsOwnerOrIsAdmin, IsAdmin, IsPostImageOwnerOrAdmin, \
     IsObjectOwnerOrReadOnly
 from party.post.models import Post, PostImages, PostComment, PostFavorite
-from party.post.serializers import PostSerializer, PostImageSerializer, PostCommentSerializer, PostFavoriteSerializer
+from party.post.serializers import PostSerializer, PostImageSerializer, PostCommentSerializer
 
 
 class PostViewSet(ModelViewSet):
