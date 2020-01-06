@@ -34,7 +34,7 @@ class IsUserOrReadOnly(permissions.BasePermission):
         )
 
 
-class IsCommentOwnerOrReadOnly(permissions.BasePermission):
+class IsObjectOwnerOrReadOnly(permissions.BasePermission):
     def has_object_permission(self, request, view, obj):
         return bool(
             request.method in SAFE_METHODS or

@@ -1,7 +1,7 @@
 from rest_framework.serializers import ModelSerializer
 
 from party.account.serializers import UserProfileSerializer
-from party.post.models import Post, PostImages, PostComment
+from party.post.models import Post, PostImages, PostComment, PostFavorite
 
 
 class PostImageSerializer(ModelSerializer):
@@ -40,6 +40,7 @@ class PostSerializer(ModelSerializer):
         representation = super().to_representation(instance)
         representation['files'] = PostImageSerializer(instance.images.all(), many=True, context=self.context).data
         representation['owner'] = UserProfileSerializer(instance.owner).data
+        representation['is_favorited'] = instance.is_favorited(self.context.get('request', None))
         return representation
 
 

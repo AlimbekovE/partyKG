@@ -6,7 +6,7 @@ from rest_framework.routers import DefaultRouter
 
 from party.account.views import qr_code_scan, user_detail, event_users_list, UserView
 from party.event.views import EventViewSet
-from party.post.views import PostViewSet, PostImagesViewsSet, PostCommentViewSet
+from party.post.views import PostViewSet, PostImagesViewsSet, PostCommentViewSet, post_favorite
 
 router = DefaultRouter()
 router.register('post', PostViewSet)
@@ -22,4 +22,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/v1/', include('party.api_auth.urls')),
     path('api/v1/', include(router.urls)),
+    path('api/v1/post_favorite/', post_favorite)
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
