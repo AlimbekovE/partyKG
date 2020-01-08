@@ -4,11 +4,12 @@ from rest_framework.generics import get_object_or_404
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
+from rest_framework.decorators import api_view, permission_classes
 
 from party.core.paginators import CustomPagination
 from party.core.permissions import IsOwnerOrIsAdmin, IsAdmin, IsPostImageOwnerOrAdmin, \
-    IsCommentOwnerOrReadOnly
-from party.post.models import Post, PostImages, PostComment
+    IsObjectOwnerOrReadOnly
+from party.post.models import Post, PostImages, PostComment, PostFavorite
 from party.post.serializers import PostSerializer, PostImageSerializer, PostCommentSerializer
 
 
@@ -78,7 +79,7 @@ class PostCommentViewSet(mixins.CreateModelMixin,
                          viewsets.GenericViewSet):
     queryset = PostComment.objects.all()
     serializer_class = PostCommentSerializer
-    permission_classes = (IsCommentOwnerOrReadOnly,)
+    permission_classes = (IsObjectOwnerOrReadOnly,)
 
     def create(self, request, *args, **kwargs):
         data = request.data.copy()
@@ -88,3 +89,15 @@ class PostCommentViewSet(mixins.CreateModelMixin,
         if serializer.is_valid(raise_exception=True):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+
+@api_view(['POST'])
+@permission_classes((IsAuthenticated,))
+def post_favorite(request):
+    post_id = request.data.get('post_id')
+    make_favorite = request.data.get('make_favorite')
+    if make_favorite == 'true':
+        PostFavorite.objects.get_or_create(user=request.user, post_id=post_id)
+    elif make_favorite == 'false':
+        PostFavorite.objects.filter(user=request.user.pk, post_id=post_id).delete()
+    return Response(status=200)
