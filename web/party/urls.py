@@ -6,7 +6,7 @@ from rest_framework.routers import DefaultRouter
 
 from party.account.views import qr_code_scan, user_detail, event_users_list, UserView
 from party.event.views import EventViewSet
-from party.post.views import PostViewSet, PostImagesViewsSet, PostCommentViewSet
+from party.post.views import PostViewSet, PostImagesViewsSet, PostCommentViewSet, post_favorite
 from party.vote.views import QuestionViewSet, vote
 
 router = DefaultRouter()

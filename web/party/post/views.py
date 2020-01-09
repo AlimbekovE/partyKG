@@ -9,7 +9,7 @@ from rest_framework.decorators import api_view, permission_classes
 from party.core.paginators import CustomPagination
 from party.core.permissions import IsOwnerOrIsAdmin, IsAdmin, IsPostImageOwnerOrAdmin, \
     IsObjectUserOrReadOnly
-from party.post.models import Post, PostImages, PostComment
+from party.post.models import Post, PostImages, PostComment, PostFavorite
 
 from party.post.serializers import PostSerializer, PostImageSerializer, PostCommentSerializer
 
