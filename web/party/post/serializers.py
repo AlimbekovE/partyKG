@@ -39,7 +39,7 @@ class PostSerializer(ModelSerializer):
     def to_representation(self, instance):
         representation = super().to_representation(instance)
         representation['files'] = PostImageSerializer(instance.images.all(), many=True, context=self.context).data
-        representation['owner'] = UserProfileSerializer(instance.owner).data
+        representation['owner'] = UserProfileSerializer(instance.owner, context=self.context).data
         representation['is_favorited'] = instance.is_favorited(self.context.get('request', None))
         return representation
 
@@ -48,3 +48,8 @@ class PostCommentSerializer(ModelSerializer):
     class Meta:
         model = PostComment
         fields = '__all__'
+
+    def to_representation(self, instance):
+        representation = super().to_representation(instance)
+        representation['user'] =  UserProfileSerializer(instance.user, context=self.context).data
+        return representation

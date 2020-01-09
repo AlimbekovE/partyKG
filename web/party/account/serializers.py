@@ -53,6 +53,20 @@ class UserProfileSerializer(serializers.ModelSerializer):
         model = User
         exclude = ('is_staff', 'activation_code', 'password', 'is_active', 'last_login')
 
+    def _get_avatar(self, obj):
+        if (avatar := getattr(obj, 'avatar', None)) and \
+            (image := getattr(avatar, 'image', None)):
+            url = image.url
+            if (request := self.context.get('request')) is not None:
+                url = request.build_absolute_uri(url)
+            return url
+        return ''
+
+    def to_representation(self, instance):
+        representation = super().to_representation(instance)
+        representation['avatar'] = self._get_avatar(instance)
+        return representation
+
 
 class RegisterSerializer(serializers.ModelSerializer):
     password = serializers.CharField(min_length=6, write_only=True)
