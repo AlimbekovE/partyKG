@@ -8,8 +8,9 @@ from rest_framework.decorators import api_view, permission_classes
 
 from party.core.paginators import CustomPagination
 from party.core.permissions import IsOwnerOrIsAdmin, IsAdmin, IsPostImageOwnerOrAdmin, \
-    IsObjectOwnerOrReadOnly
+    IsObjectUserOrReadOnly
 from party.post.models import Post, PostImages, PostComment, PostFavorite
+
 from party.post.serializers import PostSerializer, PostImageSerializer, PostCommentSerializer
 
 
@@ -79,7 +80,7 @@ class PostCommentViewSet(mixins.CreateModelMixin,
                          viewsets.GenericViewSet):
     queryset = PostComment.objects.all()
     serializer_class = PostCommentSerializer
-    permission_classes = (IsObjectOwnerOrReadOnly,)
+    permission_classes = (IsObjectUserOrReadOnly,)
 
     def create(self, request, *args, **kwargs):
         data = request.data.copy()

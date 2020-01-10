@@ -17,6 +17,16 @@ class IsOwnerOrIsAdmin(permissions.BasePermission):
         return obj.owner == request.user or request.user.is_staff
 
 
+class IsObjectOwnerOrReadOnly(permissions.BasePermission):
+    def has_object_permission(self, request, view, obj):
+        return bool(
+            request.method in SAFE_METHODS or
+            request.user and
+            request.user.is_authenticated and
+            obj.owner == request.user
+        )
+
+
 class IsPostImageOwnerOrAdmin(permissions.BasePermission):
     def has_object_permission(self, request, view, obj):
         return (request.user and request.user.is_authenticated and
@@ -34,7 +44,7 @@ class IsUserOrReadOnly(permissions.BasePermission):
         )
 
 
-class IsObjectOwnerOrReadOnly(permissions.BasePermission):
+class IsObjectUserOrReadOnly(permissions.BasePermission):
     def has_object_permission(self, request, view, obj):
         return bool(
             request.method in SAFE_METHODS or
