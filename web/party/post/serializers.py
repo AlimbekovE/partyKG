@@ -41,6 +41,7 @@ class PostSerializer(ModelSerializer):
         representation['files'] = PostImageSerializer(instance.images.all(), many=True, context=self.context).data
         representation['owner'] = UserProfileSerializer(instance.owner, context=self.context).data
         representation['is_favorited'] = instance.is_favorited(self.context.get('request', None))
+        representation['favorites_count'] = instance.favorites.count()
         return representation
 
 
