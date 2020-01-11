@@ -7,7 +7,7 @@ from rest_framework.routers import DefaultRouter
 from party.account.views import qr_code_scan, user_detail, event_users_list, UserView, PartyMembers
 from party.event.views import EventViewSet
 from party.post.views import PostViewSet, PostImagesViewsSet, PostCommentViewSet, post_favorite
-from party.vote.views import QuestionViewSet, vote
+from party.vote.views import QuestionViewSet, vote, QuestionDiscussionsViewSet
 
 router = DefaultRouter()
 router.register('post', PostViewSet)
@@ -16,6 +16,7 @@ router.register('post_images', PostImagesViewsSet)
 router.register('users', UserView)
 router.register('event', EventViewSet)
 router.register('question', QuestionViewSet)
+router.register('question_discussions', QuestionDiscussionsViewSet)
 
 urlpatterns = [
     path('qr_code/<int:pk>/', qr_code_scan, name='qr_code'),
