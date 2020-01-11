@@ -42,6 +42,7 @@ class PostSerializer(ModelSerializer):
         representation['owner'] = UserProfileSerializer(instance.owner, context=self.context).data
         representation['is_favorited'] = instance.is_favorited(self.context.get('request', None))
         representation['favorites_count'] = instance.favorites.count()
+        representation['comments_count'] = instance.comments.count()
         return representation
 
 
