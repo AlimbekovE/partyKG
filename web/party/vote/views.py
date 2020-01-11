@@ -67,5 +67,6 @@ class QuestionDiscussionsViewSet(mixins.CreateModelMixin,
 def vote(request):
     answer = request.data.get('answer')
     question = request.data.get('question')
-    Vote.objects.update_or_create(user=request.user, question_id=question, defaults={'answer': answer})
-    return Response(status=200)
+    vote, _ = Vote.objects.update_or_create(user=request.user, question_id=question, defaults={'answer': answer})
+    serializer = QuestionSerializer(vote.question)
+    return Response(serializer.data, status=200)
