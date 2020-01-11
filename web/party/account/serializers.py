@@ -8,7 +8,17 @@ from party.locations.models import Region, District
 
 User = get_user_model()
 
+class BasaAvatarSerializer():
+    def get_avatar(self, obj):
+        if (avatar := getattr(obj, 'avatar', None)) and \
+            (image := getattr(avatar, 'image', None)):
+            url = image.url
+            if (request := self.context.get('request')) is not None:
+                url = request.build_absolute_uri(url)
+            return url
+        return ''
 
+# serializer for login
 class UserMeSerializer(serializers.ModelSerializer):
     token = serializers.SerializerMethodField()
 
@@ -48,23 +58,25 @@ class UserSerializer(serializers.ModelSerializer):
         return representation
 
 
-class UserProfileSerializer(serializers.ModelSerializer):
+class UserListSerializer(serializers.ModelSerializer, BasaAvatarSerializer):
+    class Meta:
+        model = User
+        fields = ('name', 'surname', 'phone', 'position')
+
+    def to_representation(self, instance):
+        representation = super().to_representation(instance)
+        representation['avatar'] = self.get_avatar(instance)
+        return representation
+
+
+class UserProfileSerializer(serializers.ModelSerializer, BasaAvatarSerializer):
     class Meta:
         model = User
         exclude = ('is_staff', 'activation_code', 'password', 'is_active', 'last_login')
 
-    def _get_avatar(self, obj):
-        if (avatar := getattr(obj, 'avatar', None)) and \
-            (image := getattr(avatar, 'image', None)):
-            url = image.url
-            if (request := self.context.get('request')) is not None:
-                url = request.build_absolute_uri(url)
-            return url
-        return ''
-
     def to_representation(self, instance):
         representation = super().to_representation(instance)
-        representation['avatar'] = self._get_avatar(instance)
+        representation['avatar'] = self.get_avatar(instance)
         return representation
 
 

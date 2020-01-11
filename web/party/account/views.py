@@ -3,14 +3,16 @@ import re
 from django.shortcuts import get_object_or_404
 from django.shortcuts import render
 from django.contrib.auth import get_user_model
+from django.db.models import Q
 
 from rest_framework.response import Response
-from rest_framework import mixins
+from rest_framework import mixins, generics
 from rest_framework.viewsets import GenericViewSet
 from rest_framework.decorators import action
+from rest_framework.permissions import IsAuthenticated
 
 from party.account.models import Avatar
-from party.account.serializers import UserSerializer, AvatarSerializer
+from party.account.serializers import UserSerializer, AvatarSerializer, UserListSerializer
 from party.core.permissions import IsUserOrReadOnly
 from party.event.models import Event
 
@@ -65,3 +67,20 @@ class UserView(mixins.RetrieveModelMixin,
             serializer = AvatarSerializer(Avatar.objects.filter(user=request.user).first(),
                                           context={'request': request})
             return Response(serializer.data)
+
+
+class PartyMembers(generics.ListAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserListSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        if search := self.request.GET.get('search', None):
+            self.queryset = self.queryset.filter(
+                Q(name__icontains=search) |
+                Q(surname__icontains=search) |
+                Q(patronymic__icontains=search) |
+                Q(phone__icontains=search) |
+                Q(email__icontains=search)
+            )
+        return self.queryset
