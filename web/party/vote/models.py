@@ -7,8 +7,9 @@ User = get_user_model()
 
 
 class Question(models.Model):
+    title = models.CharField(max_length=200)
     owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name='questions')
-    question_text = models.CharField(max_length=200)
+    question_text = models.TextField()
     project_date = models.DateTimeField()
     created = models.DateTimeField(auto_now_add=True)
 
@@ -20,3 +21,13 @@ class Vote(models.Model):
 
     class Meta:
         unique_together = ('user', 'question')
+
+
+class QuestionDiscussion(models.Model):
+    question = models.ForeignKey(Question, related_name='discussions', on_delete=models.CASCADE)
+    user = models.ForeignKey(User, related_name='discussions', on_delete=models.CASCADE)
+    message = models.TextField(blank=True)
+    created = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ('-created',)
