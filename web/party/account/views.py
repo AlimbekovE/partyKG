@@ -9,12 +9,10 @@ from rest_framework.response import Response
 from rest_framework import mixins, generics
 from rest_framework.viewsets import GenericViewSet
 from rest_framework.decorators import action
-from rest_framework.decorators import api_view
 from rest_framework.permissions import IsAuthenticated
 
 from party.account.models import Avatar
 from party.account.serializers import UserSerializer, AvatarSerializer, UserListSerializer
-from party.core.paginators import CustomPagination
 from party.core.permissions import IsUserOrReadOnly
 from party.event.models import Event
 
@@ -69,28 +67,6 @@ class UserView(mixins.RetrieveModelMixin,
             serializer = AvatarSerializer(Avatar.objects.filter(user=request.user).first(),
                                           context={'request': request})
             return Response(serializer.data)
-
-@api_view(['GET'])
-def party_members(request):
-    pagination_class = CustomPagination
-    pagination_class.page_size = 10
-
-    qs = User.objects.all()[:10]
-    if search := request.GET.get('search', None):
-        qs = qs.filter(
-            Q(name=search) |
-            Q(surname=search) |
-            Q(patronymic=search) |
-            Q(phone=search) |
-            Q(email=search)
-        )
-
-    page = pagination_class(qs, request=request)
-    if page is not None:
-        serializers = UserListSerializer(page, many=True, context={'request': request})
-        return pagination_class.get_paginated_response(serializers.data)
-    serializers =  UserListSerializer(qs, many=True, context={'request': request})
-    return Response(serializers.data)
 
 
 class PartyMembers(generics.ListAPIView):
