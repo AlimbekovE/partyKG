@@ -61,7 +61,7 @@ class UserSerializer(serializers.ModelSerializer):
 class UserListSerializer(serializers.ModelSerializer, BasaAvatarSerializer):
     class Meta:
         model = User
-        fields = ('name', 'surname', 'phone', 'position')
+        fields = ('id', 'name', 'surname', 'phone', 'position')
 
     def to_representation(self, instance):
         representation = super().to_representation(instance)
