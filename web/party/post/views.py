@@ -100,5 +100,5 @@ def post_favorite(request):
     if make_favorite == 'true':
         PostFavorite.objects.get_or_create(user=request.user, post_id=post_id)
     elif make_favorite == 'false':
-        PostFavorite.objects.filter(user=request.user.pk, post_id=post_id).delete()
+        PostFavorite.objects.filter(user=request.user, post_id=post_id).delete()
     return Response(status=200)
