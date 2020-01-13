@@ -6,11 +6,6 @@ from django.db import migrations
 
 
 _data = [
-    {'name': 'Бакай-Атинский район', 'slug': 'bakai-atinskii-raion', 'id': 5},
-    {'name': 'Кара-Бууринский район', 'slug': 'kara-buurinskii-raion', 'id': 6},
-    {'name': 'Манасский район', 'slug': 'manasskii-raion', 'id': 7},
-    {'name': 'Таласский район', 'slug': 'talasskii-raion', 'id': 8},
-    {'name': 'Ак-Суйский район', 'slug': 'ak-suiskii-raion', 'id': 9},
     {'name': 'Джети-Огузский район', 'slug': 'dzheti-oguzskii-raion', 'id': 10},
     {'name': 'Тонский район', 'slug': 'tonskii-raion', 'id': 11},
     {'name': 'Тюпский район', 'slug': 'tiupskii-raion', 'id': 12},
@@ -30,6 +25,12 @@ _data = [
     {'name': 'Баткенский район', 'slug': 'batkenskii-raion', 'id': 26},
     {'name': 'Кадамжайский район', 'slug': 'kadamzhaiskii-raion', 'id': 27},
     {'name': 'Лейлекский район', 'slug': 'leilekskii-raion', 'id': 28},
+
+    {'name': 'Бакай-Атинский район', 'slug': 'bakai-atinskii-raion', 'id': 29},
+    {'name': 'Кара-Бууринский район', 'slug': 'kara-buurinskii-raion', 'id': 30},
+    {'name': 'Манасский район', 'slug': 'manasskii-raion', 'id': 31},
+    {'name': 'Таласский район', 'slug': 'talasskii-raion', 'id': 32},
+    {'name': 'Ак-Суйский район', 'slug': 'ak-suiskii-raion', 'id': 33},
 ]
 
 
