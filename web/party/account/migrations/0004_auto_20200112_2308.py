@@ -47,7 +47,7 @@ class Migration(migrations.Migration):
         ),
         migrations.AddField(
             model_name='user',
-            name='yik',
+            name='plot',
             field=models.CharField(blank=True, max_length=255, null=True),
         ),
         migrations.AlterField(

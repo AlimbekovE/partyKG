@@ -38,7 +38,7 @@ class User(AbstractBaseUser):
     position = models.ForeignKey(Position, on_delete=models.CASCADE, blank=True, null=True)
     gender = models.CharField(choices=GENDER, max_length=100, blank=True, null=True)
     marital_status = models.CharField(max_length=255, blank=True, null=True)
-    yik = models.CharField(max_length=255, blank=True, null=True)
+    plot = models.CharField(max_length=255, blank=True, null=True)
     representation = models.CharField(max_length=255, blank=True, null=True)
     date_of_birth = models.DateField(blank=True, null=True)
 

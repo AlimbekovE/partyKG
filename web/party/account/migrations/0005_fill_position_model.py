@@ -6,26 +6,27 @@ from django.db import migrations
 
 
 _data = [
-    {'name': 'Депутаты ЖК', 'slug': 'bishkek'},
-    {'name': '', 'slug': 'bishkek'},
+    {'name': 'Депутаты ЖК', 'slug': 'deputaty-zhk'},
+    {'name': 'Депутаты городского округа', 'slug': 'deputaty-gorodskogo-okruga'},
+    {'name': 'Депутаты айыльного округа', 'slug': 'deputaty-aiylnogo-okruga'},
 ]
 
 
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('locations', '0003_city'),
+        ('account', '0004_auto_20200112_2308'),
     ]
 
     def qwerty(apps, schema_editor):
-        City = apps.get_model('account', 'Position')
+        Position = apps.get_model('account', 'Position')
 
         for x in _data:
-            City.objects.get_or_create(city_id=x['id'], slug=x['slug'], name=x['name'])
+            Position.objects.get_or_create(slug=x['slug'], name=x['name'])
 
     def revert(apps, scema):
         pass
 
     operations = [
-        migrations.RunPython(qwerty, revert),
+        # migrations.RunPython(qwerty, revert),
     ]
