@@ -38,7 +38,7 @@ pipeline {
                 expression { env.BRANCH_NAME == 'master' }
             }
             steps {
-                echo "Deploying image..."
+                echo "Deploying image..." 
                 sh "scp docker-compose-prod.yml root@kg7.kg:/root/kg7/docker-compose-prod.yml"
                 sh "docker build -f web/Dockerfile --target production -t ms-kp ./web"
                 sh "docker build -f nginx/Dockerfile -t ms-kp-nginx ./nginx"
