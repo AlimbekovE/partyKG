@@ -44,7 +44,7 @@ pipeline {
                 sh "docker build -f nginx/Dockerfile -t ms-kp-nginx ./nginx"
                 sh "docker tag ms-kp mirsoftdevel/kp:web"
                 sh "docker tag ms-kp-nginx mirsoftdevel/kp:nginx"
-                withDockerRegistry([credentialsId: '0a3b80bb-a5d8-45f1-aec0-cad050f8770d', url: ' https://index.docker.io/v1/']) {
+                withDockerRegistry([credentialsId: 'fc62ace4-e6c7-4451-9173-fd536f61890b', url: ' https://index.docker.io/v1/']) {
                     sh "docker push mirsoftdevel/kp:web"
                     sh "docker push mirsoftdevel/kp:nginx"
                 }
