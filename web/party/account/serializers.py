@@ -81,6 +81,8 @@ class UserListSerializer(serializers.ModelSerializer, BasaAvatarSerializer):
 
 class RegisterSerializer(serializers.ModelSerializer):
     password = serializers.CharField(min_length=6, write_only=True)
+    date_of_birth = serializers.DateField(format='%d-%m-%Y', input_formats=['%d-%m-%Y', 'iso-8601'], required=False)
+    position = serializers.SlugRelatedField(slug_field='slug', queryset=Position.objects.all())
 
     class Meta:
         model = User
