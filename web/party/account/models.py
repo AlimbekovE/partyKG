@@ -10,7 +10,7 @@ from slugify import slugify
 from party.account.managers import UserManager
 from party.account.utils import GENDER
 from party.api_auth.utils import send_sms_account_verification
-from party.locations.models import Region, District, City
+from party.locations.models import Region, District
 
 
 class Position(models.Model):
