@@ -2,7 +2,7 @@ from django.contrib.auth import get_user_model
 from django.utils.translation import gettext as _
 from rest_framework import serializers
 
-from party.account.models import Avatar
+from party.account.models import Avatar, Position
 from party.core.utils import normalize_phone
 from party.locations.models import Region, District
 
@@ -41,10 +41,17 @@ class UserMeSerializer(serializers.ModelSerializer):
         return representation
 
 
-class UserSerializer(serializers.ModelSerializer):
+class UserSerializer(serializers.ModelSerializer, BasaAvatarSerializer):
+    date_of_birth = serializers.DateField(format='%d-%m-%Y', input_formats=['%d-%m-%Y', 'iso-8601'])
+
     class Meta:
         model = User
         exclude = ('is_staff', 'activation_code', 'password', )
+
+    def _get_position(self, obj):
+        if (position := getattr(obj, 'position', None)):
+            return position.name
+        return ''
 
     def create(self, validated_data):
         instance = super(UserSerializer, self).create(validated_data)
@@ -55,6 +62,8 @@ class UserSerializer(serializers.ModelSerializer):
     def to_representation(self, instance):
         representation = super().to_representation(instance)
         representation['party_ticket'] = instance.party_ticket
+        representation['avatar'] = self.get_avatar(instance)
+        representation['position'] = self._get_position(instance)
         return representation
 
 
@@ -62,17 +71,6 @@ class UserListSerializer(serializers.ModelSerializer, BasaAvatarSerializer):
     class Meta:
         model = User
         fields = ('id', 'name', 'surname', 'phone', 'position')
-
-    def to_representation(self, instance):
-        representation = super().to_representation(instance)
-        representation['avatar'] = self.get_avatar(instance)
-        return representation
-
-
-class UserProfileSerializer(serializers.ModelSerializer, BasaAvatarSerializer):
-    class Meta:
-        model = User
-        exclude = ('is_staff', 'activation_code', 'password', 'is_active', 'last_login')
 
     def to_representation(self, instance):
         representation = super().to_representation(instance)
@@ -139,3 +137,9 @@ class AvatarSerializer(serializers.ModelSerializer):
         res = super(AvatarSerializer, self).to_representation(instance)
         res['image'] = self._get_image_url(instance)
         return res
+
+
+class PositionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Position
+        fields = '__all__'

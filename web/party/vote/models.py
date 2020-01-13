@@ -25,7 +25,7 @@ class Vote(models.Model):
 
 class QuestionDiscussion(models.Model):
     question = models.ForeignKey(Question, related_name='discussions', on_delete=models.CASCADE)
-    user = models.ForeignKey(User, related_name='discussions', on_delete=models.CASCADE)
+    user = models.ForeignKey(User, related_name='question_discussions', on_delete=models.CASCADE)
     message = models.TextField(blank=True)
     created = models.DateTimeField(auto_now_add=True)
 

@@ -5,10 +5,24 @@ from django.utils.translation import gettext as _
 from django.utils.crypto import get_random_string
 
 from rest_framework.authtoken.models import Token
+from slugify import slugify
 
 from party.account.managers import UserManager
+from party.account.utils import GENDER
 from party.api_auth.utils import send_sms_account_verification
-from party.locations.models import Region, District
+from party.locations.models import Region, District, City
+
+
+class Position(models.Model):
+    name = models.CharField(max_length=150)
+    slug = models.CharField(max_length=150, blank=True, null=True)
+
+    def __str__(self):
+        return self.name
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.name)
+        return super().save(*args, **kwargs)
 
 
 class User(AbstractBaseUser):
@@ -20,8 +34,15 @@ class User(AbstractBaseUser):
     activation_code = models.CharField(max_length=4, blank=True,
                                        verbose_name=_(
                                            'Activation Code'))
-    position = models.CharField(max_length=255, blank=True, null=True)
 
+    position = models.ForeignKey(Position, on_delete=models.CASCADE, blank=True, null=True)
+    gender = models.CharField(choices=GENDER, max_length=100, blank=True, null=True)
+    marital_status = models.CharField(max_length=255, blank=True, null=True)
+    plot = models.CharField(max_length=255, blank=True, null=True)
+    representation = models.CharField(max_length=255, blank=True, null=True)
+    date_of_birth = models.DateField(blank=True, null=True)
+
+    city = models.CharField(max_length=255, blank=True, null=True)
     region = models.ForeignKey(Region, on_delete=models.CASCADE, blank=True, null=True)
     district = models.ForeignKey(District, on_delete=models.CASCADE, blank=True, null=True)
 
@@ -61,6 +82,12 @@ class User(AbstractBaseUser):
                 self.send_sms_activation_code(self.activation_code)
 
         super().save(*args, **kwargs)
+
+    def create_new_password(self, password):
+        self.set_password(password)
+        self.activation_code = ''
+        self.save(update_fields=['activation_code', 'password'])
+        return True
 
     @classmethod
     def create_activation_code(cls):
