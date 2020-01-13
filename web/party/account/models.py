@@ -42,7 +42,7 @@ class User(AbstractBaseUser):
     representation = models.CharField(max_length=255, blank=True, null=True)
     date_of_birth = models.DateField(blank=True, null=True)
 
-    city = models.ForeignKey(City, on_delete=models.CASCADE, blank=True, null=True)
+    city = models.CharField(max_length=255, blank=True, null=True)
     region = models.ForeignKey(Region, on_delete=models.CASCADE, blank=True, null=True)
     district = models.ForeignKey(District, on_delete=models.CASCADE, blank=True, null=True)
 
