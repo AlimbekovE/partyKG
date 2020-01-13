@@ -28,5 +28,5 @@ class Migration(migrations.Migration):
         pass
 
     operations = [
-        # migrations.RunPython(qwerty, revert),
+        migrations.RunPython(qwerty, revert),
     ]

@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.utils.safestring import mark_safe
 from rest_framework.authtoken.models import Token
 
-from party.account.models import User, Avatar
+from party.account.models import User, Avatar, Position
 from django.contrib.auth.models import Group
 
 
@@ -27,6 +27,11 @@ class UserAdmin(admin.ModelAdmin):
     list_display = ('name', 'surname', 'patronymic', 'phone', 'position')
 
 
+class PositionAdmin(admin.ModelAdmin):
+    fields = ('name',)
+
+
 admin.site.register(User, UserAdmin)
+admin.site.register(Position, PositionAdmin)
 admin.site.unregister(Group)
 admin.site.unregister(Token)
