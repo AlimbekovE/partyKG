@@ -7,7 +7,6 @@ from django.db import migrations
 
 _data = {
     'regions': [
-        {'name': 'Бишкек', 'slug': 'bishkek', 'id': 1},
         {'name': 'Баткенская область', 'slug': 'batkenskaya-oblast', 'id': 2},
         {'name': 'Чуйская область', 'slug': 'chuyskaya-oblast', 'id': 3},
         {'name': 'Джалал-Абадская область', 'slug': 'dzhalal-abadskaya-oblast', 'id': 4},
@@ -15,7 +14,6 @@ _data = {
         {'name': 'Ошская область', 'slug': 'oshskaya-oblast', 'id': 6},
         {'name': 'Таласская область', 'slug': 'talasskaya-oblast', 'id': 7},
         {'name': 'Иссык-Кульская область', 'slug': 'issyk-kulskaya-oblast', 'id': 8},
-        {'name': 'Ош', 'slug': 'osh', 'id': 9},
     ],
     'district': [
         {'name': 'Первомайский район', 'slug': 'pervomayskiy-rayon', 'id': 1},
