@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from rest_framework.serializers import ModelSerializer
 
-from party.account.serializers import UserProfileSerializer
+from party.account.serializers import UserSerializer
 from party.vote.models import Question, Vote, QuestionDiscussion
 from django.db.models import Q, Count
 
@@ -59,5 +59,5 @@ class QuestionDiscussionSerializer(ModelSerializer):
         representation = super().to_representation(instance)
         representation['title'] = instance.question.title
         representation['question'] = instance.question.question_text
-        representation['user'] = UserProfileSerializer(instance.user, context=self.context).data
+        representation['user'] = UserSerializer(instance.user, context=self.context).data
         return representation

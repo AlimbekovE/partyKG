@@ -1,7 +1,7 @@
 from rest_framework import serializers
 
-from party.account.serializers import UserProfileSerializer
-from party.event.models import Event
+from party.account.serializers import UserSerializer
+from party.event.models import Event, EventDiscussion
 
 
 class EventSerializer(serializers.ModelSerializer):
@@ -13,7 +13,7 @@ class EventSerializer(serializers.ModelSerializer):
 
     def to_representation(self, instance):
         representation = super().to_representation(instance)
-        representation['owner'] = UserProfileSerializer(instance.owner).data
+        representation['owner'] = UserSerializer(instance.owner).data
         return representation
 
 
@@ -45,5 +45,18 @@ class EventListSerializer(serializers.ModelSerializer):
 
     def to_representation(self, instance):
         representation = super().to_representation(instance)
-        representation['owner'] = UserProfileSerializer(instance.owner).data
+        representation['owner'] = UserSerializer(instance.owner).data
         return instance.datetime.day, representation
+
+
+class EventDiscussionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = EventDiscussion
+        fields = '__all__'
+
+    def to_representation(self, instance):
+        representation = super().to_representation(instance)
+        representation['title'] = instance.event.title
+        representation['description'] = instance.event.description
+        representation['user'] = UserSerializer(instance.user, context=self.context).data
+        return representation

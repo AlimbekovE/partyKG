@@ -33,3 +33,14 @@ class Participant(models.Model):
     event = models.OneToOneField(Event, on_delete=models.CASCADE, related_name='participants')
     user = models.ManyToManyField(User)
     date = models.DateTimeField(auto_now_add=True)
+
+
+class EventDiscussion(models.Model):
+    event = models.ForeignKey(Event, related_name='discussions', on_delete=models.CASCADE)
+    user = models.ForeignKey(User, related_name='event_discussions', on_delete=models.CASCADE)
+    message = models.TextField(blank=True)
+    created = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ('-created',)
+

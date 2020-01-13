@@ -7,7 +7,8 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.authtoken.models import Token
 from party.account.serializers import RegisterSerializer, UserMeSerializer, UserSerializer
-from party.api_auth.forms import LoginForm, ActivateAccountForm, ResendActivationForm
+from party.api_auth.forms import LoginForm, ActivateAccountForm, ResendActivationForm, LostPasswordForm, \
+    CreateNewPasswordForm
 
 User = get_user_model()
 
@@ -75,3 +76,29 @@ class ResendActivationCodeView(APIView):
         if response['status'] == 'error':
             return Response(status=400, data=response['data'])
         return Response({'status': 'success', 'activation_code': response['data']})
+
+
+class LostPasswordRequestView(APIView):
+    def post(self, request):
+        response = LostPasswordForm(request.data).save()
+        if response['status'] == 'error':
+            return Response(status=400, data=response['data'])
+        return Response({'status': 'success', 'activation_code': response['data']})
+
+
+class CreateNewPasswordView(APIView):
+    def post(self, request):
+        response = CreateNewPasswordForm(request.data).save()
+
+        if response['status'] == 'error':
+            return Response(status=400, data=response['data'])
+
+        user, token = response['data']
+
+        serializer = UserSerializer(user, context={'request': request})
+
+        result = serializer.data
+        result['token'] = token
+        user.save_last_login()
+
+        return Response(result, status=201)

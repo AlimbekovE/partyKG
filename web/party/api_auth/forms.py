@@ -70,3 +70,53 @@ class ResendActivationForm(APIForm):
         user.activation_code = user.create_activation_code()
         user.save(is_sms_activation=True)
         return user.activation_code
+
+
+class LostPasswordForm(APIForm):
+    phone = forms.CharField(min_length=3, max_length=32)
+
+    def clean_phone(self):
+        phone = normalize_phone(self.cleaned_data['phone'])
+        return phone
+
+    def api_method(self, *args, **kwargs):
+        User = get_user_model()
+        try:
+            user = User.objects.get(phone=self.cleaned_data['phone'])
+        except User.DoesNotExist:
+            raise exceptions.NotFound(_('User with phone number {phone} does not exist').format(phone=self.cleaned_data['phone']))
+        user.activation_code = user.create_activation_code()
+        user.save(is_sms_activation=True)
+        return user.activation_code
+
+
+class CreateNewPasswordForm(APIForm):
+    phone = forms.CharField(min_length=9, required=True)
+    password = forms.CharField(min_length=6, required=True)
+    code = forms.CharField(min_length=4, validators=[validate_code], required=True)
+
+    def clean(self):
+        cleaned_data = super().clean()
+        User = get_user_model()
+        phone = cleaned_data.get('phone', '')
+        if not phone:
+            raise forms.ValidationError(_('Phone is required'))
+        phone = normalize_phone(phone)
+        cleaned_data['phone'] = phone
+        code = cleaned_data.get('code', '')
+        if not code or not User.objects.filter(phone=phone, activation_code=code).exists():
+            raise forms.ValidationError(_('Account not found'))
+        return cleaned_data
+
+    def api_method(self, *args, **kwargs):
+        User = get_user_model()
+        phone = self.cleaned_data['phone']
+        code = self.cleaned_data['code']
+        password = self.cleaned_data['password']
+
+        try:
+            user = User.objects.get(phone=phone, activation_code=code)
+        except User.DoesNotExist:
+            raise exceptions.NotFound(_('User with phone number {phone} does not exist').format(phone=phone))
+        user.create_new_password(password)
+        return authenticate_user(phone=phone, password=password)

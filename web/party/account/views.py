@@ -11,8 +11,8 @@ from rest_framework.viewsets import GenericViewSet
 from rest_framework.decorators import action
 from rest_framework.permissions import IsAuthenticated
 
-from party.account.models import Avatar
-from party.account.serializers import UserSerializer, AvatarSerializer, UserListSerializer
+from party.account.models import Avatar, Position
+from party.account.serializers import UserSerializer, AvatarSerializer, UserListSerializer, PositionSerializer
 from party.core.permissions import IsUserOrReadOnly
 from party.event.models import Event
 
@@ -84,3 +84,13 @@ class PartyMembers(generics.ListAPIView):
                 Q(email__icontains=search)
             )
         return self.queryset
+
+
+class PositionList(generics.ListAPIView):
+    queryset = Position.objects.all()
+    serializer_class = PositionSerializer
+
+    def list(self, request, *args, **kwargs):
+        queryset = self.filter_queryset(self.get_queryset())
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)
