@@ -3,6 +3,7 @@ from django.contrib.auth.base_user import AbstractBaseUser
 from django.urls import reverse
 from django.utils.translation import gettext as _
 from django.utils.crypto import get_random_string
+from django.utils import timezone
 
 from rest_framework.authtoken.models import Token
 from slugify import slugify
@@ -88,6 +89,10 @@ class User(AbstractBaseUser):
         self.activation_code = ''
         self.save(update_fields=['activation_code', 'password'])
         return True
+
+    def save_last_login(self):
+        self.last_login = timezone.now()
+        self.save()
 
     @classmethod
     def create_activation_code(cls):
