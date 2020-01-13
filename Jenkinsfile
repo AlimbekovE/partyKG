@@ -39,7 +39,7 @@ pipeline {
             }
             steps {
                 echo "Deploying image..."
-                sh "scp docker-compose-prod.yml root@138.197.178.24:/root/kp/docker-compose-prod.yml"
+                sh "scp docker-compose-prod.yml root@kg7.kg:/root/kg7/docker-compose-prod.yml"
                 sh "docker build -f web/Dockerfile --target production -t ms-kp ./web"
                 sh "docker build -f nginx/Dockerfile -t ms-kp-nginx ./nginx"
                 sh "docker tag ms-kp mirsoftdevel/kp:web"
