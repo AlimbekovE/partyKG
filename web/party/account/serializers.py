@@ -84,7 +84,7 @@ class RegisterSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        exclude = ('activation_code', 'password', 'activation_code')
+        exclude = ('activation_code',)
         read_only_fields = ('is_staff',)
 
     def validate_phone(self, value):
