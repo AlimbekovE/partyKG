@@ -1,0 +1,45 @@
+version: '3'
+
+services:
+  nginx:
+    restart: always
+    image: mirsoftdevel/kp:nginx-develop
+    ports:
+      - "127.0.0.1:88:80"
+      - "127.0.0.1:451:443"
+    environment:
+      - SERVER_NAME=kp.mirsoft.io
+    # command: /bin/sh -c "envsubst '$$SERVER_NAME' < /etc/nginx/nginx.tmpl > /etc/nginx/nginx.conf && nginx -g 'daemon off;'"
+    command: /bin/sh /usr/local/bin/start.sh
+
+    volumes:
+      - ./static:/usr/src/app/static
+      - ./media:/usr/src/app/media
+      - ./certs/letsencrypt/www:/var/www/letsencrypt
+      - ./certs/letsencrypt/etc:/etc/letsencrypt
+      - ./certs/dhparam.pem:/etc/ssl/private/dhparam.pem
+    links:
+      - web:web
+
+    depends_on:
+      - web
+
+  postgres:
+    restart: always
+    image: postgres:11.4
+    expose:
+      - "5432"
+    volumes:
+      - ./pgdata:/var/lib/postgresql/data/
+
+
+  web:
+    restart: always
+    image: mirsoftdevel/kp:web-develop
+    expose:
+      - "8000"
+    volumes:
+      - ./data:/usr/src/app/data
+      - ./static:/usr/src/app/static
+      - ./media:/usr/src/app/media
+    env_file: .env
