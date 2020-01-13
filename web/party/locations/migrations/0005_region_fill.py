@@ -27,6 +27,9 @@ _data = [
     {'name': 'Ноокатский район', 'slug': 'nookatskii-raion', 'id': 23},
     {'name': 'Узгенский район', 'slug': 'uzgenskii-raion', 'id': 24},
     {'name': 'Чон-Алайский район', 'slug': 'chon-alaiskii-raion', 'id': 25},
+    {'name': 'Баткенский район', 'slug': 'batkenskii-raion', 'id': 26},
+    {'name': 'Кадамжайский район', 'slug': 'kadamzhaiskii-raion', 'id': 27},
+    {'name': 'Лейлекский район', 'slug': 'leilekskii-raion', 'id': 28},
 ]
 
 
