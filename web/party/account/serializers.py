@@ -81,24 +81,10 @@ class UserListSerializer(serializers.ModelSerializer, BasaAvatarSerializer):
 
 class RegisterSerializer(serializers.ModelSerializer):
     password = serializers.CharField(min_length=6, write_only=True)
-    district = serializers.SlugRelatedField(
-        slug_field='slug',
-        queryset=District.objects.all(),
-        required=False
-    )
-    region = serializers.SlugRelatedField(
-        slug_field='slug',
-        queryset=Region.objects.all(),
-        required=False
-    )
 
     class Meta:
         model = User
-        fields = (
-            'id', 'name', 'surname', 'patronymic',
-            'phone', 'email', 'password', 'is_staff',
-            'region', 'district',
-        )
+        exclude = ('activation_code', 'password', 'activation_code')
         read_only_fields = ('is_staff',)
 
     def validate_phone(self, value):
