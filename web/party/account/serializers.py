@@ -8,7 +8,7 @@ from party.locations.models import Region, District
 
 User = get_user_model()
 
-class BasaAvatarSerializer():
+class BasaFieldSerializer():
     def get_avatar(self, obj):
         if (avatar := getattr(obj, 'avatar', None)) and \
             (image := getattr(avatar, 'image', None)):
@@ -18,9 +18,15 @@ class BasaAvatarSerializer():
             return url
         return ''
 
+    def get_position(self, obj):
+        if (position := getattr(obj, 'position', None)):
+            return position.name
+        return ''
+
 # serializer for login
-class UserMeSerializer(serializers.ModelSerializer):
+class UserMeSerializer(serializers.ModelSerializer, BasaFieldSerializer):
     token = serializers.SerializerMethodField()
+    position = serializers.SlugRelatedField(slug_field='slug', queryset=Position.objects.all())
 
     class Meta:
         model = User
@@ -38,21 +44,17 @@ class UserMeSerializer(serializers.ModelSerializer):
     def to_representation(self, instance):
         representation = super().to_representation(instance)
         representation['party_ticket'] = instance.party_ticket
+        representation['position'] = self.get_position(instance)
         return representation
 
 
-class UserSerializer(serializers.ModelSerializer, BasaAvatarSerializer):
+class UserSerializer(serializers.ModelSerializer, BasaFieldSerializer):
     date_of_birth = serializers.DateField(format='%d-%m-%Y', input_formats=['%d-%m-%Y', 'iso-8601'], required=False)
     position = serializers.SlugRelatedField(slug_field='slug', queryset=Position.objects.all())
 
     class Meta:
         model = User
         exclude = ('is_staff', 'activation_code', 'password', )
-
-    def _get_position(self, obj):
-        if (position := getattr(obj, 'position', None)):
-            return position.name
-        return ''
 
     def create(self, validated_data):
         instance = super(UserSerializer, self).create(validated_data)
@@ -64,11 +66,11 @@ class UserSerializer(serializers.ModelSerializer, BasaAvatarSerializer):
         representation = super().to_representation(instance)
         representation['party_ticket'] = instance.party_ticket
         representation['avatar'] = self.get_avatar(instance)
-        representation['position'] = self._get_position(instance)
+        representation['position'] = self.get_position(instance)
         return representation
 
 
-class UserListSerializer(serializers.ModelSerializer, BasaAvatarSerializer):
+class UserListSerializer(serializers.ModelSerializer, BasaFieldSerializer):
     class Meta:
         model = User
         fields = ('id', 'name', 'surname', 'phone', 'position')
@@ -76,10 +78,11 @@ class UserListSerializer(serializers.ModelSerializer, BasaAvatarSerializer):
     def to_representation(self, instance):
         representation = super().to_representation(instance)
         representation['avatar'] = self.get_avatar(instance)
+        representation['position'] = self.get_position(instance)
         return representation
 
 
-class RegisterSerializer(serializers.ModelSerializer):
+class RegisterSerializer(serializers.ModelSerializer, BasaFieldSerializer):
     password = serializers.CharField(min_length=6, write_only=True)
     date_of_birth = serializers.DateField(format='%d-%m-%Y', input_formats=['%d-%m-%Y', 'iso-8601'], required=False)
     position = serializers.SlugRelatedField(slug_field='slug', queryset=Position.objects.all())
@@ -100,6 +103,7 @@ class RegisterSerializer(serializers.ModelSerializer):
     def to_representation(self, instance):
         representation = super().to_representation(instance)
         representation['party_ticket'] = instance.party_ticket
+        representation['position'] = self.get_position(instance)
         return representation
 
 
