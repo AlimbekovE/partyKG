@@ -18,7 +18,8 @@ class EventViewSet(mixins.ListModelMixin,
     queryset = Event.objects.filter(is_personal=False)
     serializer_class = EventSerializer
     permission_classes = [IsAdminOrbjectIsPersonal, IsAuthenticated]
-    pagination_class = None
+    pagination_class = CustomPagination
+    pagination_class.size = 31
 
 
     def get_serializer_class(self):
@@ -32,7 +33,7 @@ class EventViewSet(mixins.ListModelMixin,
         is_personal = self.request.GET.get('is_personal', False)
 
         qs = super().get_queryset()
-        if month and year and is_personal:
+        if month and year:
             qs = qs.filter(
                 datetime__month=month,
                 datetime__year=year,
