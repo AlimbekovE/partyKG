@@ -13,6 +13,7 @@ class Event(models.Model):
     number_of_people = models.PositiveIntegerField(null=True, blank=True)
     location = models.CharField(max_length=255)
     datetime = models.DateTimeField()
+    is_personal = models.BooleanField(default=False, null=True, blank=True)
 
     class Meta:
         verbose_name = _('Event')
