@@ -8,7 +8,7 @@ from rest_framework.decorators import api_view, permission_classes, action
 from party.core.paginators import CustomPagination
 from party.core.permissions import IsObjectUserOrReadOnly, IsObjectOwnerOrReadOnly
 from party.vote.models import Question, Vote, QuestionDiscussion
-from party.vote.serializers import QuestionSerializer, QuestionDiscussionSerializer
+from party.vote.serializers import QuestionSerializer, QuestionDiscussionSerializer, QuestionSerializerList
 
 
 class QuestionViewSet(ModelViewSet):
@@ -74,7 +74,7 @@ def vote(request):
 
 class UserQuestionDiscussionsList(generics.ListAPIView):
     queryset = Question.objects.all()
-    serializer_class = QuestionSerializer
+    serializer_class = QuestionSerializerList
 
     permission_classes = [IsAuthenticated]
     pagination_class = CustomPagination
