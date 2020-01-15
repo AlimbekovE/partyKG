@@ -42,7 +42,7 @@ class PostViewSet(ModelViewSet):
     @action(methods=['GET'], detail=True)
     def comments(self, request, pk, *args, **kwargs):
         self.pagination_class = CustomPagination
-        self.pagination_class.page_size = 10
+        self.pagination_class.page_size = 50
 
         post = get_object_or_404(Post, pk=pk)
         comments = post.comments.select_related('user')

@@ -20,7 +20,7 @@ class EventSerializer(serializers.ModelSerializer):
 class CustomListSerializer(serializers.ListSerializer):
     def to_representation(self, data):
         calendar = {}
-        for item in data.all():
+        for item in data:
             item = self.child.to_representation(item)
             day, event_time = item
 

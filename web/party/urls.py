@@ -8,7 +8,7 @@ from party.account.views import qr_code_scan, user_detail, event_users_list, Use
 from party.event.views import EventViewSet, EventDiscussionsViewSet
 from party.locations.views import CityList
 from party.post.views import PostViewSet, PostImagesViewsSet, PostCommentViewSet, post_favorite
-from party.vote.views import QuestionViewSet, vote, QuestionDiscussionsViewSet
+from party.vote.views import QuestionViewSet, vote, QuestionDiscussionsViewSet, UserQuestionDiscussionsList
 
 router = DefaultRouter()
 router.register('post', PostViewSet)
@@ -31,5 +31,6 @@ urlpatterns = [
     path('api/v1/post_favorite/', post_favorite),
     path('api/v1/party_members/', PartyMembers.as_view()),
     path('api/v1/positions', PositionList.as_view()),
-    path('api/v1/citys', CityList.as_view())
+    path('api/v1/citys', CityList.as_view()),
+    path('api/v1/user_question_discussions', UserQuestionDiscussionsList.as_view()),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -21,13 +21,17 @@ class Event(models.Model):
         ordering = ['datetime']
 
     def get_qr_code_url(self, request=None):
-        url = reverse('qr_code', kwargs={'pk': self.pk})
-        if request:
-            url = request.build_absolute_uri(url)
-        return url
+        if self.pk:
+            url = reverse('qr_code', kwargs={'pk': self.pk})
+            if request:
+                url = request.build_absolute_uri(url)
+            return url
+        return ''
 
     def get_user_visit_url(self):
-        return reverse('event_visits_list', kwargs={'pk': self.pk})
+        if self.pk:
+            return reverse('event_visits_list', kwargs={'pk': self.pk})
+        return ''
 
 
 class Participant(models.Model):
