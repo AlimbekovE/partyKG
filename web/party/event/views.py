@@ -19,7 +19,7 @@ class EventViewSet(mixins.ListModelMixin,
     serializer_class = EventSerializer
     permission_classes = [IsAdminOrbjectIsPersonal, IsAuthenticated]
     pagination_class = CustomPagination
-    pagination_class.size = 31
+    pagination_class.size = 50
 
 
     def get_serializer_class(self):
@@ -60,7 +60,7 @@ class EventViewSet(mixins.ListModelMixin,
     @action(methods=['GET'], detail=True)
     def discussions(self, request, pk, *args, **kwargs):
         self.pagination_class = CustomPagination
-        self.pagination_class.page_size = 10
+        self.pagination_class.page_size = 50
 
         question = get_object_or_404(Event, pk=pk)
         discussions = question.discussions.select_related('user')

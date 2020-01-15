@@ -31,7 +31,7 @@ class QuestionViewSet(ModelViewSet):
     @action(methods=['GET'], detail=True)
     def discussions(self, request, pk, *args, **kwargs):
         self.pagination_class = CustomPagination
-        self.pagination_class.page_size = 10
+        self.pagination_class.page_size = 50
 
         question = get_object_or_404(Question, pk=pk)
         discussions = question.discussions.select_related('user')
@@ -78,7 +78,7 @@ class UserQuestionDiscussionsList(generics.ListAPIView):
 
     permission_classes = [IsAuthenticated]
     pagination_class = CustomPagination
-    pagination_class.size = 10
+    pagination_class.size = 50
 
     def get_queryset(self):
         qs = super().get_queryset()
