@@ -44,6 +44,14 @@ class QuestionSerializer(ModelSerializer):
         return representation
 
 
+class QuestionSerializerList(ModelSerializer):
+    project_date = serializers.DateTimeField(format='%d-%m-%Y %H:%M', input_formats=['%d-%m-%Y %H:%M', 'iso-8601'])
+
+    class Meta:
+        model = Question
+        fields = '__all__'
+
+
 class VoteSerializer(ModelSerializer):
     class Meta:
         model = Vote
