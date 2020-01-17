@@ -18,8 +18,9 @@ class EventViewSet(mixins.ListModelMixin,
     queryset = Event.objects.filter(is_personal=False)
     serializer_class = EventSerializer
     permission_classes = [IsAdminOrbjectIsPersonal, IsAuthenticated]
-    pagination_class = CustomPagination
-    pagination_class.size = 50
+    pagination_class = None
+    # pagination_class = CustomPagination
+    # pagination_class.size = 50
 
 
     def get_serializer_class(self):
