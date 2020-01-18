@@ -102,3 +102,17 @@ class CreateNewPasswordView(APIView):
         user.save_last_login()
 
         return Response(result, status=201)
+
+
+class ChangePasswordView(APIView):
+    permission_classes = [permissions.IsAuthenticated, ]
+
+    def post(self, request):
+        data = request.data.copy()
+        old_password = data.get('old_password')
+        new_password = data.get('new_password')
+        if not request.user.check_password(old_password):
+            return Response(status=400, data={'old_password': [_('Wrong old password provided'), ]})
+        request.user.set_password(new_password)
+        return Response({'status': 'success'})
+

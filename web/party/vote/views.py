@@ -1,4 +1,4 @@
-from rest_framework import status, mixins, viewsets
+from rest_framework import status, mixins, viewsets, generics
 from rest_framework.generics import get_object_or_404
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.viewsets import ModelViewSet
@@ -7,8 +7,8 @@ from rest_framework.decorators import api_view, permission_classes, action
 
 from party.core.paginators import CustomPagination
 from party.core.permissions import IsObjectUserOrReadOnly, IsObjectOwnerOrReadOnly
-from party.vote.models import Question, Vote
-from party.vote.serializers import QuestionSerializer, QuestionDiscussionSerializer
+from party.vote.models import Question, Vote, QuestionDiscussion
+from party.vote.serializers import QuestionSerializer, QuestionDiscussionSerializer, QuestionSerializerList
 
 
 class QuestionViewSet(ModelViewSet):
@@ -31,7 +31,7 @@ class QuestionViewSet(ModelViewSet):
     @action(methods=['GET'], detail=True)
     def discussions(self, request, pk, *args, **kwargs):
         self.pagination_class = CustomPagination
-        self.pagination_class.page_size = 10
+        self.pagination_class.page_size = 50
 
         question = get_object_or_404(Question, pk=pk)
         discussions = question.discussions.select_related('user')
@@ -70,3 +70,21 @@ def vote(request):
     vote, _ = Vote.objects.update_or_create(user=request.user, question_id=question, defaults={'answer': answer})
     serializer = QuestionSerializer(vote.question)
     return Response(serializer.data, status=200)
+
+
+class UserQuestionDiscussionsList(generics.ListAPIView):
+    queryset = Question.objects.all()
+    serializer_class = QuestionSerializerList
+
+    permission_classes = [IsAuthenticated]
+    pagination_class = CustomPagination
+    pagination_class.size = 50
+
+    def get_queryset(self):
+        qs = super().get_queryset()
+        is_personal = self.request.GET.get('is_personal', False)
+        if is_personal:
+            question_discussions = QuestionDiscussion.objects.filter(user=self.request.user)
+            qs = Question.objects.filter(discussions__in=question_discussions).distinct()
+        return qs
+

@@ -67,7 +67,7 @@ INSTALLED_APPS = [
 
 REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'party.core.paginators.CustomPagination',
-    'PAGE_SIZE': 10,
+    'PAGE_SIZE': 50,
 
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework.authentication.TokenAuthentication',
