@@ -114,5 +114,6 @@ class ChangePasswordView(APIView):
         if not request.user.check_password(old_password):
             return Response(status=400, data={'old_password': [_('Wrong old password provided'), ]})
         request.user.set_password(new_password)
+        request.user.save()
         return Response({'status': 'success'})
 
