@@ -20,10 +20,6 @@ class PostImageSerializer(ModelSerializer):
         return res
 
     def create(self, validated_data):
-        if validated_data['file'].content_type == 'image/jpeg':
-            validated_data['type'] = 'image'
-        else:
-            validated_data['type'] = 'video'
         return PostImages.objects.create(**validated_data)
 
     class Meta:
