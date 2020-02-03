@@ -7,7 +7,7 @@ from rest_framework.routers import DefaultRouter
 from party.account.views import qr_code_scan, user_detail, event_users_list, UserView, PartyMembers, PositionList
 from party.core.views import AgreementView
 from party.event.views import EventViewSet, EventDiscussionsViewSet
-from party.locations.views import CityList
+from party.locations.views import CityList, DistrictList, RegionList
 from party.post.views import PostViewSet, PostImagesViewsSet, PostCommentViewSet, post_favorite
 from party.vote.views import QuestionViewSet, vote, QuestionDiscussionsViewSet, UserQuestionDiscussionsList
 
@@ -33,6 +33,8 @@ urlpatterns = [
     path('api/v1/party_members/', PartyMembers.as_view()),
     path('api/v1/positions', PositionList.as_view()),
     path('api/v1/citys', CityList.as_view()),
+    path('api/v1/districts', DistrictList.as_view()),
+    path('api/v1/regions', RegionList.as_view()),
     path('api/v1/user_question_discussions', UserQuestionDiscussionsList.as_view()),
     path('agreement/', AgreementView.as_view())
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
