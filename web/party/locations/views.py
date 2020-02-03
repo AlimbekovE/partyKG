@@ -9,11 +9,6 @@ class CityList(generics.ListAPIView):
     queryset = City.objects.all()
     serializer_class = CitySerializer
 
-    def list(self, request, *args, **kwargs):
-        queryset = self.filter_queryset(self.get_queryset())
-        serializer = self.get_serializer(queryset, many=True)
-        return Response(serializer.data)
-
 
 class RegionList(generics.ListAPIView):
     queryset = Region.objects.all()
