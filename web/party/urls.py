@@ -5,7 +5,7 @@ from django.conf.urls.static import static
 from rest_framework.routers import DefaultRouter
 
 from party.account.views import qr_code_scan, user_detail, event_users_list, UserView, PartyMembers, PositionList
-from party.core.views import AgreementView
+from party.core.views import AgreementView, ApplicationView
 from party.event.views import EventViewSet, EventDiscussionsViewSet
 from party.locations.views import CityList, DistrictList, RegionList
 from party.post.views import PostViewSet, PostImagesViewsSet, PostCommentViewSet, post_favorite
@@ -36,5 +36,6 @@ urlpatterns = [
     path('api/v1/districts', DistrictList.as_view()),
     path('api/v1/regions', RegionList.as_view()),
     path('api/v1/user_question_discussions', UserQuestionDiscussionsList.as_view()),
-    path('agreement/', AgreementView.as_view())
+    path('agreement/', AgreementView.as_view()),
+    path('app/', ApplicationView.as_view())
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
