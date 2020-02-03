@@ -38,7 +38,7 @@ class Migration(migrations.Migration):
         ('locations', '0006_region_district'),
     ]
 
-    def qwerty(apps, schema_editor):
+    def migrate_district_regionilation(apps, schema_editor):
         Region = apps.get_model('locations', 'Region')
         District = apps.get_model('locations', 'District')
 
@@ -64,5 +64,5 @@ class Migration(migrations.Migration):
         pass
 
     operations = [
-        migrations.RunPython(qwerty, revert),
+        migrations.RunPython(migrate_district_regionilation, revert),
     ]

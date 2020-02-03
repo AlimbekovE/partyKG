@@ -19,19 +19,7 @@ class RegionList(generics.ListAPIView):
     queryset = Region.objects.all()
     serializer_class = RegionSerializer
 
-    def list(self, request, *args, **kwargs):
-        queryset = self.filter_queryset(self.get_queryset())
-        serializer = self.get_serializer(queryset, many=True)
-        return Response(serializer.data)
-
 
 class DistrictList(generics.ListAPIView):
     queryset = District.objects.all()
     serializer_class = DistrictSerializer
-    
-    def list(self, request, *args, **kwargs):
-        queryset = self.filter_queryset(self.get_queryset())
-        serializer = self.get_serializer(queryset, many=True)
-        return Response(serializer.data)
-
-
