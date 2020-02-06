@@ -31,7 +31,7 @@ class User(AbstractBaseUser):
     surname = models.CharField(max_length=255, blank=True, null=True)
     patronymic = models.CharField(max_length=255, blank=True, null=True)
     phone = models.CharField(max_length=255, unique=True)
-    email = models.CharField(max_length=255, unique=True, blank=True, null=True)
+    email = models.CharField(max_length=255, blank=True, null=True)
     activation_code = models.CharField(max_length=4, blank=True,
                                        verbose_name=_(
                                            'Activation Code'))
