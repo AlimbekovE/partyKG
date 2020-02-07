@@ -3,13 +3,18 @@ from party.locations.models import Region, District, City
 
 
 class RegionAdmin(admin.ModelAdmin):
-    pass
-admin.site.register(Region, RegionAdmin)
+    list_display = ('name', 'region_id', 'district')
+    list_filter = ('district',)
+
 
 class DistrictAdmin(admin.ModelAdmin):
-    pass
-admin.site.register(District, DistrictAdmin)
+    list_display = ('name', 'district_id')
+
 
 class CityAdmin(admin.ModelAdmin):
-    pass
+    list_display = ('name', 'city_id')
+
+
 admin.site.register(City, CityAdmin)
+admin.site.register(Region, RegionAdmin)
+admin.site.register(District, DistrictAdmin)
