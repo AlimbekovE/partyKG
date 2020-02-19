@@ -15,6 +15,6 @@ class CityAdmin(admin.ModelAdmin):
     list_display = ('name', 'city_id')
 
 
-admin.site.register(City, CityAdmin)
+# admin.site.register(City, CityAdmin)
 admin.site.register(Region, RegionAdmin)
 admin.site.register(District, DistrictAdmin)
