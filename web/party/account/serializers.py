@@ -4,7 +4,6 @@ from rest_framework import serializers
 
 from party.account.models import Avatar, Position
 from party.core.utils import normalize_phone
-from party.locations.models import Region, District
 
 User = get_user_model()
 
@@ -86,8 +85,6 @@ class RegisterSerializer(serializers.ModelSerializer, BasaFieldSerializer):
     password = serializers.CharField(min_length=6, write_only=True)
     date_of_birth = serializers.DateField(format='%d-%m-%Y', input_formats=['%d-%m-%Y', 'iso-8601'], required=False)
     position = serializers.SlugRelatedField(slug_field='slug', queryset=Position.objects.all())
-    region = serializers.SlugRelatedField(slug_field='region_id', queryset=Region.objects.all())
-    district = serializers.SlugRelatedField(slug_field='district_id', queryset=District.objects.all())
 
     class Meta:
         model = User
