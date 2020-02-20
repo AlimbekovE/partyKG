@@ -4,10 +4,11 @@ from rest_framework import serializers
 
 from party.account.models import Avatar, Position
 from party.core.utils import normalize_phone
+from party.locations.serializers import RegionSerializer, DistrictSerializer
 
 User = get_user_model()
 
-class BasaFieldSerializer():
+class BaseFieldSerializer():
     def get_avatar(self, obj):
         if (avatar := getattr(obj, 'avatar', None)) and \
             (image := getattr(avatar, 'image', None)):
@@ -19,11 +20,21 @@ class BasaFieldSerializer():
 
     def get_position(self, obj):
         if (position := getattr(obj, 'position', None)):
-            return position.name
-        return ''
+            return PositionSerializer(position).data
+        return position
+
+    def get_region(self, obj):
+        if (region := getattr(obj, 'region', None)):
+            return RegionSerializer(region).data
+        return region
+
+    def get_district(self, obj):
+        if (district := getattr(obj, 'district', None)):
+            return DistrictSerializer(district).data
+        return district
 
 # serializer for login
-class UserMeSerializer(serializers.ModelSerializer, BasaFieldSerializer):
+class UserMeSerializer(serializers.ModelSerializer, BaseFieldSerializer):
     token = serializers.SerializerMethodField()
     position = serializers.SlugRelatedField(slug_field='slug', queryset=Position.objects.all())
 
@@ -44,10 +55,13 @@ class UserMeSerializer(serializers.ModelSerializer, BasaFieldSerializer):
         representation = super().to_representation(instance)
         representation['party_ticket'] = instance.party_ticket
         representation['position'] = self.get_position(instance)
+        representation['avatar'] = self.get_avatar(instance)
+        representation['district'] = self.get_district(instance)
+        representation['region'] = self.get_region(instance)
         return representation
 
 
-class UserSerializer(serializers.ModelSerializer, BasaFieldSerializer):
+class UserSerializer(serializers.ModelSerializer, BaseFieldSerializer):
     date_of_birth = serializers.DateField(format='%d-%m-%Y', input_formats=['%d-%m-%Y', 'iso-8601'], required=False)
     position = serializers.SlugRelatedField(slug_field='slug', queryset=Position.objects.all())
 
@@ -66,10 +80,12 @@ class UserSerializer(serializers.ModelSerializer, BasaFieldSerializer):
         representation['party_ticket'] = instance.party_ticket
         representation['avatar'] = self.get_avatar(instance)
         representation['position'] = self.get_position(instance)
+        representation['district'] = self.get_district(instance)
+        representation['region'] = self.get_region(instance)
         return representation
 
 
-class UserListSerializer(serializers.ModelSerializer, BasaFieldSerializer):
+class UserListSerializer(serializers.ModelSerializer, BaseFieldSerializer):
     class Meta:
         model = User
         fields = ('id', 'name', 'surname', 'phone', 'position')
@@ -81,7 +97,7 @@ class UserListSerializer(serializers.ModelSerializer, BasaFieldSerializer):
         return representation
 
 
-class RegisterSerializer(serializers.ModelSerializer, BasaFieldSerializer):
+class RegisterSerializer(serializers.ModelSerializer, BaseFieldSerializer):
     password = serializers.CharField(min_length=6, write_only=True)
     date_of_birth = serializers.DateField(format='%d-%m-%Y', input_formats=['%d-%m-%Y', 'iso-8601'], required=False)
     position = serializers.SlugRelatedField(slug_field='slug', queryset=Position.objects.all())
@@ -103,6 +119,8 @@ class RegisterSerializer(serializers.ModelSerializer, BasaFieldSerializer):
         representation = super().to_representation(instance)
         representation['party_ticket'] = instance.party_ticket
         representation['position'] = self.get_position(instance)
+        representation['district'] = self.get_district(instance)
+        representation['region'] = self.get_region(instance)
         return representation
 
 

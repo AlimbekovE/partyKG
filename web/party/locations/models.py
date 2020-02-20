@@ -9,6 +9,9 @@ class District(models.Model):
     def __str__(self):
         return self.name
 
+    class Meta:
+        ordering = ('district_id',)
+
 
 class Region(models.Model):
     name = models.CharField(max_length=255)
@@ -17,6 +20,7 @@ class Region(models.Model):
     district = models.ForeignKey(District, on_delete=models.CASCADE, null=True)
 
     class Meta:
+        ordering = ('name',)
         unique_together = ('region_id', 'district')
 
     def __str__(self):
