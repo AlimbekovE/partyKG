@@ -97,8 +97,9 @@ class PostCommentViewSet(mixins.CreateModelMixin,
 def post_favorite(request):
     post_id = request.data.get('post_id')
     make_favorite = request.data.get('make_favorite')
-    if make_favorite == 'true':
-        PostFavorite.objects.get_or_create(user=request.user, post_id=post_id)
-    elif make_favorite == 'false':
+    if make_favorite in ('false', False):
         PostFavorite.objects.filter(user=request.user, post_id=post_id).delete()
+    elif make_favorite in ('true', 1, '1', True):
+        PostFavorite.objects.get_or_create(user=request.user, post_id=post_id)
+
     return Response(status=200)
