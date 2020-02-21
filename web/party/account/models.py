@@ -122,7 +122,7 @@ class User(AbstractBaseUser):
         region_id = f"{self.region.region_id}".rjust(2, '0') if self.region else "00"
         district_id = f"{self.district.district_id}".rjust(2, '0') if self.district else "00"
         user_id = f"{self.id}".rjust(6, '0')
-        return f"{region_id}/{district_id}/{user_id}"
+        return f"{district_id}/{region_id}/{user_id}"
 
     def get_user_url(self):
         return reverse('user_detail', kwargs={'pk': self.pk})
