@@ -10,7 +10,7 @@
   <style>
     body {
       margin: 0;
-      background: #38CAC9;
+      background: #15A485;
     }
 
     .wrap {
@@ -22,6 +22,8 @@
 
     .logo {
       width: 300px;
+      display: block;
+      margin: 0 auto;
     }
 
     h1 {
@@ -29,7 +31,7 @@
       font-family: Oswald, sans-serif;
       font-weight: bold;
       font-size: 52px;
-      color: #F5EC07;
+      color: #FFFF00;
       text-align: center;
     }
 
@@ -38,14 +40,18 @@
       font-family: Ovo, sans-serif;
       font-size: 26px;
       line-height: 25px;
-      color: #F5EC07;
+      color: #FFFF00;
       text-align: center;
     }
 
-    .icon {
-      width: 200px;
-      display: block;
+    .icons {
       margin: 20px auto;
+      display: flex;
+    }
+
+    .icon {
+      height: 50px;
+      margin: 0 10px;
     }
   </style>
 </head>
@@ -53,9 +59,12 @@
   <div class="wrap">
     <img src="{% static 'core/logo.png' %}" alt="" class="logo">
     <h1>КЫРГЫЗСТАН</h1>
-    <h2>политическая партия</h2>
-    <!--<a href="https://play.google.com/store/apps/details?id=io.mirsoft.kyrgyzstanparty" class="donwload-app"><img class="icon" src="{%static 'core/google-play-badge.png'%}" alt=""></a>-->
-    <a href="{% static 'core/app-release.apk' %}" class="donwload-app" download><img class="icon" src="{%static 'core/google-play-badge.png'%}" alt=""></a>
+    <h2>саясий партиясы</h2>
+    <div class="icons">
+      <!-- <a href="https://play.google.com/store/apps/details?id=io.mirsoft.kyrgyzstanparty" class="donwload-app"><img class="icon" src="{%static 'core/google-play-badge.png'%}" alt=""></a> -->
+      <a href="{% static 'core/app-release.apk' %}" class="donwload-app" download><img class="icon" src="{%static 'core/google-play-badge.png'%}" alt=""></a>
+      <a href="{% static 'core/app-release.apk' %}" class="donwload-app" donwload><img class="icon" src="{%static 'core/appstore-badge.svg'%}" alt=""></a>
+    </div>
   </div>
 </body>
 </html>
