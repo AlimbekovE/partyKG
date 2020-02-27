@@ -6,4 +6,8 @@ class AgreementView(TemplateView):
 
 
 class ApplicationView(TemplateView):
+    template_name = 'core/application.html'
+
+
+class IndexView(TemplateView):
     template_name = 'core/index.html'

@@ -35,7 +35,7 @@ SECRET_KEY = config['security.secret_key']
 ENV = config['env.name']
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = config['debug.debug']
 
 ALLOWED_HOSTS = config['security.allowed_hosts'].split(',')
 
