@@ -1,10 +1,60 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" charset="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Кыргызстан саясий партиясы</title>
+  <link href="https://fonts.googleapis.com/css?family=Oswald|Ovo&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      background: #38CAC9;
+    }
+
+    .wrap {
+      transform: translate(-50%, -50%);
+      position: absolute;
+      top: 50%;
+      left: 50%;
+    }
+
+    .logo {
+      width: 300px;
+    }
+
+    h1 {
+      margin: 0;
+      font-family: Oswald, sans-serif;
+      font-weight: bold;
+      font-size: 52px;
+      color: #F5EC07;
+      text-align: center;
+    }
+
+    h2 {
+      margin: 0;
+      font-family: Ovo, sans-serif;
+      font-size: 26px;
+      line-height: 25px;
+      color: #F5EC07;
+      text-align: center;
+    }
+
+    .icon {
+      width: 200px;
+      display: block;
+      margin: 20px auto;
+    }
+  </style>
 </head>
 <body>
-<a href="itms-services://?action=download-manifest&url=https://kp.mirsoft.io/static/core/manifest.plist">Install App</a>
+  <div class="wrap">
+    <img src="{% static 'core/logo.png' %}" alt="" class="logo">
+    <h1>КЫРГЫЗСТАН</h1>
+    <h2>политическая партия</h2>
+    <a href="{%static 'core/app-release.apk'%}" class="donwload-app" download><img class="icon" src="{%static 'core/google-play-badge.png'%}" alt=""></a>
+  </div>
 </body>
 </html>
