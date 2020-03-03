@@ -15,8 +15,12 @@ from party.locations.models import Region, District
 
 
 class Position(models.Model):
-    name = models.CharField(max_length=150)
+    name = models.CharField(max_length=150, verbose_name=_('position name'))
     slug = models.CharField(max_length=150, blank=True, null=True)
+
+    class Meta:
+        verbose_name = _('Position')
+        verbose_name_plural = _('Positions')
 
     def __str__(self):
         return self.name
@@ -27,28 +31,41 @@ class Position(models.Model):
 
 
 class User(AbstractBaseUser):
-    name = models.CharField(max_length=255, blank=True, null=True)
-    surname = models.CharField(max_length=255, blank=True, null=True)
-    patronymic = models.CharField(max_length=255, blank=True, null=True)
-    phone = models.CharField(max_length=255, unique=True)
-    email = models.CharField(max_length=255, blank=True, null=True)
+    name = models.CharField(max_length=255, blank=True, null=True,
+                            verbose_name=_('name'))
+    surname = models.CharField(max_length=255, blank=True, null=True,
+                               verbose_name=_('surname'))
+    patronymic = models.CharField(max_length=255, blank=True, null=True,
+                                  verbose_name=_('patronymic'))
+    phone = models.CharField(max_length=255, unique=True,
+                             verbose_name=_('phone'))
+    email = models.CharField(max_length=255, blank=True,
+                             null=True, verbose_name=_('email'))
     activation_code = models.CharField(max_length=4, blank=True,
-                                       verbose_name=_(
-                                           'Activation Code'))
+                                       verbose_name=_('Activation Code'))
 
-    position = models.ForeignKey(Position, on_delete=models.CASCADE, blank=True, null=True)
-    gender = models.CharField(choices=GENDER, max_length=100, blank=True, null=True)
-    marital_status = models.CharField(max_length=255, blank=True, null=True)
-    plot = models.CharField(max_length=255, blank=True, null=True)
-    representation = models.CharField(max_length=255, blank=True, null=True)
-    date_of_birth = models.DateField(blank=True, null=True)
+    position = models.ForeignKey(Position, on_delete=models.CASCADE, blank=True,
+                                 null=True, verbose_name=_('position'))
+    gender = models.CharField(choices=GENDER, max_length=100, blank=True,
+                              null=True, verbose_name=_('gender'))
+    marital_status = models.CharField(max_length=255, blank=True, null=True,
+                                      verbose_name=_('marital_status'))
+    plot = models.CharField(max_length=255, blank=True, null=True,
+                            verbose_name=_('plot'))
+    representation = models.CharField(max_length=255, blank=True, null=True,
+                                      verbose_name=_('representation'))
+    date_of_birth = models.DateField(blank=True, null=True,
+                                     verbose_name=_('date_of_birth'))
 
-    city = models.CharField(max_length=255, blank=True, null=True)
-    region = models.ForeignKey(Region, on_delete=models.CASCADE, blank=True, null=True)
-    district = models.ForeignKey(District, on_delete=models.CASCADE, blank=True, null=True)
+    city = models.CharField(max_length=255, blank=True, null=True,
+                            verbose_name=_('city'))
+    region = models.ForeignKey(Region, on_delete=models.CASCADE, blank=True,
+                               null=True, verbose_name=_('region'))
+    district = models.ForeignKey(District, on_delete=models.CASCADE, blank=True,
+                                 null=True, verbose_name=_('district'))
 
-    is_staff = models.BooleanField(default=False)
-    is_active = models.BooleanField(default=False)
+    is_staff = models.BooleanField(default=False, verbose_name=_('is staff?'))
+    is_active = models.BooleanField(default=False, verbose_name=_('is active?'))
 
     objects = UserManager()
     USERNAME_FIELD = 'phone'
