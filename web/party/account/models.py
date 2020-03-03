@@ -41,6 +41,7 @@ class User(AbstractBaseUser):
                              verbose_name=_('phone'))
     email = models.CharField(max_length=255, blank=True,
                              null=True, verbose_name=_('email'))
+
     activation_code = models.CharField(max_length=4, blank=True,
                                        verbose_name=_('Activation Code'))
 
