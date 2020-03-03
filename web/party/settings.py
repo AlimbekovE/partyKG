@@ -3,6 +3,7 @@ from party.core.utils import PRODUCTION_ENV
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+SRC_DIR = os.path.join(BASE_DIR, 'party')
 
 config = {
     'debug.debug': 'true' == os.environ.get('DJ_DEBUG', False),
@@ -186,7 +187,7 @@ else:
 
 AUTH_USER_MODEL = 'account.User'
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'ru-ru'
 
 TIME_ZONE = 'UTC'
 
@@ -205,3 +206,8 @@ STATIC_ROOT = '/usr/src/app/static'
 
 MEDIA_ROOT = config['general.media_root']
 MEDIA_URL = '/media/'
+
+
+LOCALE_PATHS = (
+    os.path.join(SRC_DIR, 'locale'),
+)
