@@ -18,6 +18,7 @@
       position: absolute;
       top: 50%;
       left: 50%;
+      text-align: center;
     }
 
     .logo {
@@ -52,6 +53,15 @@
     .icon {
       height: 50px;
       margin: 0 10px;
+      text-align: center;
+    }
+
+    .download-apk {
+      color: #FFFF00;
+      font-family: Ovo, sans-serif;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 18px;
     }
   </style>
 </head>
@@ -63,8 +73,10 @@
     <div class="icons">
       <a href="https://play.google.com/store/apps/details?id=io.mirsoft.kyrgyzstanparty" class="donwload-app"><img class="icon" src="{%static 'core/google-play-badge.png'%}" alt=""></a>
       <a href="https://apps.apple.com/kg/app/kg7kg/id1496720322" class="donwload-app"><img class="icon" src="{%static 'core/appstore-badge.svg'%}" alt=""></a>
-      <a href="{%static 'core/app-release.apk' %}" download><img class="icon" src="{%static 'core/android.png'%}"></a>
     </div>
+    <a href="{%static 'core/app-release.apk' %}" download class="download-apk">
+      скачать версию андроид с сайта
+    </a>
   </div>
 </body>
 </html>
