@@ -6,3 +6,4 @@ requests
 django-debug-toolbar
 git+https://github.com/mirsoft-kg/sms-sender.git
 python-slugify
+django-rest-swagger==2.2.0

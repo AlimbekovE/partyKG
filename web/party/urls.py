@@ -3,13 +3,18 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 from rest_framework.routers import DefaultRouter
+from rest_framework_swagger.views import get_swagger_view
 
 from party.account.views import qr_code_scan, user_detail, event_users_list, UserView, PartyMembers, PositionList
+from party.core.utils import STAGING_ENV
 from party.core.views import AgreementView, IndexView
 from party.event.views import EventViewSet, EventDiscussionsViewSet
 from party.locations.views import CityList, DistrictList, RegionList
 from party.post.views import PostViewSet, PostImagesViewsSet, PostCommentViewSet, post_favorite
 from party.vote.views import QuestionViewSet, vote, QuestionDiscussionsViewSet, UserQuestionDiscussionsList
+
+
+schema_view = get_swagger_view(title='RiomAuto API')
 
 router = DefaultRouter()
 router.register('post', PostViewSet)
@@ -39,3 +44,10 @@ urlpatterns = [
     path('agreement/', AgreementView.as_view()),
     path('', IndexView.as_view())
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+
+# docs will be available only in staging and locally
+if settings.ENV == STAGING_ENV or settings.DEBUG:
+    urlpatterns.append(
+        path('api/v1/docs/', schema_view),
+    )
