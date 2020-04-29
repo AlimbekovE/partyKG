@@ -8,6 +8,8 @@ from django.db.models import Q, Count
 
 class QuestionSerializer(ModelSerializer):
     project_date = serializers.DateTimeField(format='%d-%m-%Y %H:%M', input_formats=['%d-%m-%Y %H:%M', 'iso-8601'])
+    deadline = serializers.DateTimeField(allow_null=True, format='%d-%m-%Y %H:%M',
+                                         input_formats=['%d-%m-%Y %H:%M', 'iso-8601'])
 
     class Meta:
         model = Question
@@ -46,6 +48,8 @@ class QuestionSerializer(ModelSerializer):
 
 class QuestionSerializerList(ModelSerializer):
     project_date = serializers.DateTimeField(format='%d-%m-%Y %H:%M', input_formats=['%d-%m-%Y %H:%M', 'iso-8601'])
+    deadline = serializers.DateTimeField(allow_null=True, format='%d-%m-%Y %H:%M',
+                                         input_formats=['%d-%m-%Y %H:%M', 'iso-8601'])
 
     class Meta:
         model = Question
