@@ -57,6 +57,8 @@ INSTALLED_APPS = [
 
     'rest_framework',
     'rest_framework.authtoken',
+    'import_export',
+    'rest_framework_swagger',
 
     'party.account',
     'party.api_auth',
@@ -211,3 +213,6 @@ MEDIA_URL = '/media/'
 LOCALE_PATHS = (
     os.path.join(SRC_DIR, 'locale'),
 )
+
+# Import/Export Configs https://django-import-export.readthedocs.io/en/latest/
+IMPORT_EXPORT_USE_TRANSACTIONS = True
