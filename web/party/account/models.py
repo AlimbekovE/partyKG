@@ -74,6 +74,7 @@ class User(AbstractBaseUser):
     class Meta:
         verbose_name = _('User')
         verbose_name_plural = _('Users')
+        ordering = ['name', 'position']
 
     def has_perm(self, perm, obj=None):
         return self.is_staff
