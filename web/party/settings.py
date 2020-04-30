@@ -57,8 +57,9 @@ INSTALLED_APPS = [
 
     'rest_framework',
     'rest_framework.authtoken',
-    'import_export',
     'rest_framework_swagger',
+
+    'import_export',
 
     'party.account',
     'party.api_auth',

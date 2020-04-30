@@ -1,0 +1,28 @@
+stages:
+  - test
+  - build
+  - deploy
+
+build_staging:
+  stage: build
+  script:
+    - docker build -f web/Dockerfile --target production -t ms-kp ./web
+    - docker build -f nginx/Dockerfile -t ms-kp-nginx ./nginx
+    - docker tag ms-kp mirsoftdevel/kp:web-develop
+    - docker tag ms-kp-nginx mirsoftdevel/kp:nginx-develop
+    - docker push mirsoftdevel/kp:web-develop
+    - docker push mirsoftdevel/kp:nginx-develop
+  only:
+    - develop@kg7/kg7_web
+  tags:
+    - local-build
+
+deploy_staging:
+  stage: deploy
+  script:
+    - scp docker-compose-devel.yml root@kp.mirsoft.io:/root/staging.kp.kg/docker-compose-devel.yml
+    - ssh root@kp.mirsoft.io "sh /root/staging.kp.kg/update.sh"
+  only:
+    - develop@kg7/kg7_web
+  tags:
+    - local-deploy
