@@ -2,8 +2,13 @@ from django.db import models
 from django.contrib.auth import get_user_model
 from django.utils.translation import gettext as _
 from party.vote.utils import ANSWER
+from party.account.models import Position
 
 User = get_user_model()
+
+
+def question_directory_path(self, filename):
+    return 'owner_{0}/{1}'.format(self.owner.id, filename)
 
 
 class Question(models.Model):
@@ -13,6 +18,12 @@ class Question(models.Model):
     question_text = models.TextField(verbose_name=_('question text'))
     project_date = models.DateTimeField(verbose_name=_('project date'))
     created = models.DateTimeField(auto_now_add=True, verbose_name=_('created date'))
+    deadline = models.DateTimeField(blank=True, null=True, verbose_name=_('deadline'))
+    voter_position = models.ManyToManyField(Position, related_name='question_text_voter_position',
+                                            verbose_name=_('voter'))
+    observer_position = models.ManyToManyField(Position, related_name='question_text_observer_position',
+                                               verbose_name=_('observer'))
+    image = models.ImageField(upload_to=question_directory_path, blank=True, null=True, verbose_name=_('image'))
 
     def __str__(self):
         return self.title

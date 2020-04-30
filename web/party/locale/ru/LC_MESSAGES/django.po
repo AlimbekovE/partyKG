@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-03-03 04:50+0000\n"
+"POT-Creation-Date: 2020-04-29 12:56+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -57,71 +57,71 @@ msgstr "Телефон"
 msgid "email"
 msgstr "email"
 
-#: party/account/models.py:45
+#: party/account/models.py:46
 msgid "Activation Code"
 msgstr "Код активации"
 
-#: party/account/models.py:48
+#: party/account/models.py:49
 msgid "position"
 msgstr "Должность"
 
-#: party/account/models.py:50
+#: party/account/models.py:51
 msgid "gender"
 msgstr "Пол"
 
-#: party/account/models.py:52
+#: party/account/models.py:53
 msgid "marital_status"
 msgstr "Семейное положение"
 
-#: party/account/models.py:54
+#: party/account/models.py:55
 msgid "plot"
 msgstr "Участок"
 
-#: party/account/models.py:56
+#: party/account/models.py:57
 msgid "representation"
 msgstr "представление"
 
-#: party/account/models.py:58
+#: party/account/models.py:59
 msgid "date_of_birth"
 msgstr "Дата рождения"
 
-#: party/account/models.py:61
+#: party/account/models.py:62
 msgid "city"
 msgstr "Город"
 
-#: party/account/models.py:63
+#: party/account/models.py:64
 msgid "region"
 msgstr "Область"
 
-#: party/account/models.py:65 party/locations/models.py:24
+#: party/account/models.py:66 party/locations/models.py:24
 msgid "district"
 msgstr "Район"
 
-#: party/account/models.py:67
+#: party/account/models.py:68
 msgid "is staff?"
 msgstr "Администратор"
 
-#: party/account/models.py:68
+#: party/account/models.py:69
 msgid "is active?"
 msgstr "Активный"
 
-#: party/account/models.py:74
+#: party/account/models.py:75
 msgid "User"
 msgstr "Пользователь"
 
-#: party/account/models.py:75
+#: party/account/models.py:76
 msgid "Users"
 msgstr "Пользователи"
 
-#: party/account/models.py:123
+#: party/account/models.py:124
 msgid "Activation code does not match"
 msgstr "Код активации не совпадает"
 
-#: party/account/models.py:156
+#: party/account/models.py:157
 msgid "Avatar"
 msgstr "Фото профиля"
 
-#: party/account/models.py:157
+#: party/account/models.py:158
 msgid "Avatars"
 msgstr "Фото профилей"
 
@@ -188,7 +188,7 @@ msgstr "Неверный код активации"
 msgid "event owner"
 msgstr "Организатор"
 
-#: party/event/models.py:13 party/post/models.py:14 party/vote/models.py:10
+#: party/event/models.py:13 party/post/models.py:14 party/vote/models.py:15
 msgid "title"
 msgstr "Заглавие"
 
@@ -225,7 +225,7 @@ msgid "event"
 msgstr "Событие"
 
 #: party/event/models.py:45 party/event/models.py:61 party/post/models.py:64
-#: party/vote/models.py:28
+#: party/vote/models.py:39
 msgid "user"
 msgstr "пользователь"
 
@@ -246,7 +246,7 @@ msgid "message"
 msgstr "Текст"
 
 #: party/event/models.py:63 party/post/models.py:16 party/post/models.py:66
-#: party/vote/models.py:15
+#: party/vote/models.py:20
 msgid "created date"
 msgstr "дата создания"
 
@@ -310,47 +310,63 @@ msgstr "комментарий к посту"
 msgid "Post comments"
 msgstr "комментарии к посту"
 
-#: party/vote/models.py:12
+#: party/vote/models.py:17
 msgid "owner"
 msgstr "Владелец"
 
-#: party/vote/models.py:13
+#: party/vote/models.py:18
 msgid "question text"
 msgstr "Текст вопроса"
 
-#: party/vote/models.py:14
+#: party/vote/models.py:19
 msgid "project date"
 msgstr "дата проекта"
 
-#: party/vote/models.py:22
+#: party/vote/models.py:21
+msgid "deadline"
+msgstr "Крайний срок"
+
+#: party/vote/models.py:23
+msgid "voter"
+msgstr "Голосователь"
+
+#: party/vote/models.py:25
+msgid "observer"
+msgstr "Наблюдатель"
+
+#: party/vote/models.py:26
+msgid "image"
+msgstr "Картинка"
+
+#: party/vote/models.py:33
 msgid "Question"
 msgstr "Вопрос"
 
-#: party/vote/models.py:23
+#: party/vote/models.py:34
 msgid "Questions"
 msgstr "Вопросы"
 
-#: party/vote/models.py:29
+#: party/vote/models.py:40
 msgid "answer"
 msgstr "Ответ"
 
-#: party/vote/models.py:31
+#: party/vote/models.py:42
 msgid "question"
 msgstr "вопрос"
 
-#: party/vote/models.py:38
+#: party/vote/models.py:49
 msgid "Vote"
 msgstr "Голос"
 
-#: party/vote/models.py:39
+#: party/vote/models.py:50
 msgid "Votes"
 msgstr "Голоса"
 
-#: party/vote/models.py:53
+#: party/vote/models.py:64
 msgid "Question Discussion"
 msgstr "Дискуссия вопроса"
 
-#: party/vote/models.py:54
+#: party/vote/models.py:65
 msgid "Question Discussions"
 msgstr "Дискуссии вопроса"
 

@@ -10,6 +10,9 @@ from party.event.views import EventViewSet, EventDiscussionsViewSet
 from party.locations.views import CityList, DistrictList, RegionList
 from party.post.views import PostViewSet, PostImagesViewsSet, PostCommentViewSet, post_favorite
 from party.vote.views import QuestionViewSet, vote, QuestionDiscussionsViewSet, UserQuestionDiscussionsList
+from rest_framework_swagger.views import get_swagger_view
+
+schema_view = get_swagger_view(title='KG7 API')
 
 router = DefaultRouter()
 router.register('post', PostViewSet)
@@ -37,5 +40,6 @@ urlpatterns = [
     path('api/v1/regions', RegionList.as_view()),
     path('api/v1/user_question_discussions', UserQuestionDiscussionsList.as_view()),
     path('agreement/', AgreementView.as_view()),
-    path('', IndexView.as_view())
+    path('schema/', schema_view),
+    path('', IndexView.as_view()),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
