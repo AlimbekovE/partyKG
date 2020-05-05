@@ -20,7 +20,6 @@ class QuestionViewSet(ModelViewSet):
 
     def get_queryset(self):
         position_id = User.objects.get(pk=self.request.user.id).position
-        Q(question__startswith='Who') | Q(question__startswith='What')
         qs = Question.objects.filter(Q(voter_position=position_id) | Q(observer_position=position_id))
         return qs
 
