@@ -13,11 +13,10 @@ from party.locations.views import CityList, DistrictList, RegionList
 from party.post.views import PostViewSet, PostImagesViewsSet, PostCommentViewSet, post_favorite
 from party.vote.views import QuestionViewSet, vote, QuestionDiscussionsViewSet, UserQuestionDiscussionsList
 from rest_framework_swagger.views import get_swagger_view
+from django.conf import settings
+from django.urls import include, path  # For django versions from 2.0 and up
 
 schema_view = get_swagger_view(title='KG7 API')
-
-
-schema_view = get_swagger_view(title='RiomAuto API')
 
 router = DefaultRouter()
 router.register('post', PostViewSet)
@@ -45,7 +44,6 @@ urlpatterns = [
     path('api/v1/regions', RegionList.as_view()),
     path('api/v1/user_question_discussions', UserQuestionDiscussionsList.as_view()),
     path('agreement/', AgreementView.as_view()),
-    path('schema/', schema_view),
     path('', IndexView.as_view()),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
@@ -55,3 +53,8 @@ if settings.ENV == STAGING_ENV or settings.DEBUG:
     urlpatterns.append(
         path('api/v1/docs/', schema_view),
     )
+
+    import debug_toolbar
+    urlpatterns = [
+        path('__debug__/', include(debug_toolbar.urls)),
+    ] + urlpatterns
