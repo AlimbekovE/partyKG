@@ -60,6 +60,7 @@ INSTALLED_APPS = [
 
     'import_export',
     'debug_toolbar',
+    'django_filters',
 
     'party.account',
     'party.api_auth',
@@ -71,6 +72,7 @@ INSTALLED_APPS = [
 ]
 
 REST_FRAMEWORK = {
+    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'],
     'DEFAULT_PAGINATION_CLASS': 'party.core.paginators.CustomPagination',
     'PAGE_SIZE': 50,
 

@@ -9,4 +9,4 @@ python-slugify
 django-rest-swagger==2.2.0
 django-import-export
 django-debug-toolbar
-
+django-filter
