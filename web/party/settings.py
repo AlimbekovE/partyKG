@@ -214,7 +214,7 @@ LOCALE_PATHS = (
 # Import/Export Configs https://django-import-export.readthedocs.io/en/latest/
 IMPORT_EXPORT_USE_TRANSACTIONS = True
 
-INTERNAL_IPS = ['127.0.0.1', '172.17.0.1', 'localhost']
+INTERNAL_IPS = ['127.0.0.1', 'localhost']
 
 DEBUG_TOOLBAR_PANELS = [
     'debug_toolbar.panels.versions.VersionsPanel',
@@ -233,8 +233,6 @@ DEBUG_TOOLBAR_PANELS = [
 
 DEBUG_TOOLBAR_CONFIG = {
     'INTERCEPT_REDIRECTS': False,
-}
-
-DEBUG_TOOLBAR_CONFIG = {
     "SHOW_TOOLBAR_CALLBACK": lambda request: True,
+
 }
