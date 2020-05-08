@@ -1,5 +1,3 @@
-import re
-
 from django.shortcuts import get_object_or_404
 from django.shortcuts import render
 from django.contrib.auth import get_user_model
@@ -10,6 +8,7 @@ from rest_framework import mixins, generics
 from rest_framework.viewsets import GenericViewSet
 from rest_framework.decorators import action
 from rest_framework.permissions import IsAuthenticated
+from django_filters.rest_framework import DjangoFilterBackend
 
 from party.account.models import Avatar, Position
 from party.account.serializers import UserSerializer, AvatarSerializer, UserListSerializer, PositionSerializer
@@ -73,6 +72,8 @@ class PartyMembers(generics.ListAPIView):
     queryset = User.objects.all()
     serializer_class = UserListSerializer
     permission_classes = [IsAuthenticated]
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['position']
 
     def get_queryset(self):
         if search := self.request.GET.get('search', None):

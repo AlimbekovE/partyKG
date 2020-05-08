@@ -44,7 +44,6 @@ class User(AbstractBaseUser):
 
     activation_code = models.CharField(max_length=4, blank=True,
                                        verbose_name=_('Activation Code'))
-
     position = models.ForeignKey(Position, on_delete=models.CASCADE, blank=True,
                                  null=True, verbose_name=_('position'))
     gender = models.CharField(choices=GENDER, max_length=100, blank=True,

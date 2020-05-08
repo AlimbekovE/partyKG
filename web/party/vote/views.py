@@ -9,12 +9,19 @@ from party.core.paginators import CustomPagination
 from party.core.permissions import IsObjectUserOrReadOnly, IsObjectOwnerOrReadOnly
 from party.vote.models import Question, Vote, QuestionDiscussion
 from party.vote.serializers import QuestionSerializer, QuestionDiscussionSerializer, QuestionSerializerList
+from party.account.models import User
+from django.db.models import Q
 
 
 class QuestionViewSet(ModelViewSet):
     queryset = Question.objects.all()
     serializer_class = QuestionSerializer
     permission_classes = (IsObjectOwnerOrReadOnly,)
+
+    def get_queryset(self):
+        position_id = User.objects.get(pk=self.request.user.id).position
+        qs = Question.objects.filter(Q(voter_position=position_id) | Q(observer_position=position_id))
+        return qs
 
     def get_serializer_context(self):
         return {'request': self.request}
@@ -87,4 +94,3 @@ class UserQuestionDiscussionsList(generics.ListAPIView):
             question_discussions = QuestionDiscussion.objects.filter(user=self.request.user)
             qs = Question.objects.filter(discussions__in=question_discussions).distinct()
         return qs
-
