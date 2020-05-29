@@ -39,7 +39,7 @@ urlpatterns = [
     path('api/v1/post_favorite/', post_favorite),
     path('api/v1/party_members/', PartyMembers.as_view()),
     path('api/v1/positions', PositionList.as_view()),
-    path('api/v1/citys', CityList.as_view()),
+    path('api/v1/cities', CityList.as_view()),
     path('api/v1/districts', DistrictList.as_view()),
     path('api/v1/regions', RegionList.as_view()),
     path('api/v1/user_question_discussions', UserQuestionDiscussionsList.as_view()),
