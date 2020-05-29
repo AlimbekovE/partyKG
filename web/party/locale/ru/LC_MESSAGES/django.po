@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-04-29 12:56+0000\n"
+"POT-Creation-Date: 2020-05-29 09:22+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -61,55 +61,55 @@ msgstr "email"
 msgid "Activation Code"
 msgstr "Код активации"
 
-#: party/account/models.py:49
+#: party/account/models.py:48
 msgid "position"
 msgstr "Должность"
 
-#: party/account/models.py:51
+#: party/account/models.py:50
 msgid "gender"
 msgstr "Пол"
 
-#: party/account/models.py:53
+#: party/account/models.py:52
 msgid "marital_status"
 msgstr "Семейное положение"
 
-#: party/account/models.py:55
+#: party/account/models.py:54
 msgid "plot"
 msgstr "Участок"
 
-#: party/account/models.py:57
+#: party/account/models.py:56
 msgid "representation"
 msgstr "представление"
 
-#: party/account/models.py:59
+#: party/account/models.py:58
 msgid "date_of_birth"
 msgstr "Дата рождения"
 
-#: party/account/models.py:62
+#: party/account/models.py:61
 msgid "city"
 msgstr "Город"
 
-#: party/account/models.py:64
+#: party/account/models.py:63
 msgid "region"
 msgstr "Область"
 
-#: party/account/models.py:66 party/locations/models.py:24
+#: party/account/models.py:65 party/locations/models.py:24
 msgid "district"
 msgstr "Район"
 
-#: party/account/models.py:68
+#: party/account/models.py:67
 msgid "is staff?"
 msgstr "Администратор"
 
-#: party/account/models.py:69
+#: party/account/models.py:68
 msgid "is active?"
 msgstr "Активный"
 
-#: party/account/models.py:75
+#: party/account/models.py:74
 msgid "User"
 msgstr "Пользователь"
 
-#: party/account/models.py:76
+#: party/account/models.py:75
 msgid "Users"
 msgstr "Пользователи"
 
@@ -286,6 +286,14 @@ msgstr "Район"
 msgid "Regions"
 msgstr "Районы"
 
+#: party/locations/models.py:42
+msgid "City"
+msgstr "Город"
+
+#: party/locations/models.py:43
+msgid "Cities"
+msgstr "Города"
+
 #: party/post/models.py:13
 msgid "post owner"
 msgstr "Владелец поста"
@@ -309,6 +317,14 @@ msgstr "комментарий к посту"
 #: party/post/models.py:74
 msgid "Post comments"
 msgstr "комментарии к посту"
+
+#: party/settings.py:206
+msgid "Russian"
+msgstr "Русский"
+
+#: party/settings.py:207
+msgid "Kyrgyz"
+msgstr "Кыргызский"
 
 #: party/vote/models.py:17
 msgid "owner"

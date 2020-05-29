@@ -6,7 +6,7 @@ from party.account.models import User, Avatar, Position
 from django.contrib.auth.models import Group
 
 from import_export.admin import ImportExportModelAdmin
-from import_export import resources
+from import_export import resources, fields
 from import_export.fields import Field
 
 
@@ -30,6 +30,7 @@ class UserResource(resources.ModelResource):
     surname = Field(attribute='surname', column_name='Фамилия')
     patronymic = Field(attribute='patronymic', column_name='Отчество')
     phone = Field(attribute='phone', column_name='Телефон')
+    party_ticket = fields.Field(attribute='party_ticket', column_name='Партийный номер')
     email = Field(attribute='email', column_name='E-mail')
     position = Field(attribute='position', column_name='Должность')
     gender = Field(attribute='gender', column_name='Пол')

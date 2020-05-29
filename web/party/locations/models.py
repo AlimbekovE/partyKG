@@ -38,5 +38,10 @@ class City(models.Model):
     slug = models.SlugField(max_length=255, unique=True)
     city_id = models.IntegerField(unique=True)
 
+    class Meta:
+        verbose_name = _('City')
+        verbose_name_plural = _('Cities')
+        ordering = ('city_id',)
+
     def __str__(self):
         return self.name

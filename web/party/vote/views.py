@@ -20,7 +20,7 @@ class QuestionViewSet(ModelViewSet):
 
     def get_queryset(self):
         position_id = User.objects.get(pk=self.request.user.id).position
-        qs = Question.objects.filter(Q(voter_position=position_id) | Q(observer_position=position_id))
+        qs = Question.objects.filter(Q(voter_position=position_id) | Q(observer_position=position_id)).distinct()
         return qs
 
     def get_serializer_context(self):
