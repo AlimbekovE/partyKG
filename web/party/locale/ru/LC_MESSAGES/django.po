@@ -95,7 +95,7 @@ msgstr "Область"
 
 #: party/account/models.py:65 party/locations/models.py:24
 msgid "district"
-msgstr "Район"
+msgstr "Область"
 
 #: party/account/models.py:67
 msgid "is staff?"

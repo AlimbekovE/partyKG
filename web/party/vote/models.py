@@ -16,7 +16,7 @@ class Question(models.Model):
     owner = models.ForeignKey(User, on_delete=models.CASCADE,
                               related_name='questions', verbose_name=_('owner'))
     question_text = models.TextField(verbose_name=_('question text'))
-    project_date = models.DateTimeField(verbose_name=_('project date'))
+    # project_date = models.DateTimeField(verbose_name=_('project date'))
     created = models.DateTimeField(auto_now_add=True, verbose_name=_('created date'))
     deadline = models.DateTimeField(blank=True, null=True, verbose_name=_('deadline'))
     voter_position = models.ManyToManyField(Position, related_name='question_text_voter_position',

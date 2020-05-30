@@ -1,6 +1,5 @@
 from django.contrib import admin
 from party.locations.models import Region, District, City
-from modeltranslation.admin import TranslationAdmin
 
 class RegionAdmin(admin.ModelAdmin):
     exclude = ('name',)
